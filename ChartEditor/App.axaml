@@ -8,5 +8,11 @@
 
     <Application.Styles>
         <FluentTheme Mode="Light"/>
-    </Application.Styles>
+		<StyleInclude Source="/Views/Control/InheritanceLine.axaml"/>
+		<StyleInclude Source="/Views/Control/ImplementationLine.axaml"/>
+		<StyleInclude Source="/Views/Control/DependencyLine.axaml"/>
+		<StyleInclude Source="/Views/Control/AggregationLine.axaml"/>
+		<StyleInclude Source="/Views/Control/CompositionLine.axaml"/>
+		<StyleInclude Source="/Views/Control/AssociationLine.axaml"/>
+	</Application.Styles>
 </Application>

@@ -3,6 +3,7 @@
         xmlns:vm="using:ChartEditor.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:controls="clr-namespace:ChartEditor.Views.Control"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ChartEditor.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -11,6 +12,34 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
+
+	<Grid ColumnDefinitions="150, *">
+		<Border Grid.Column="0" BorderThickness="1" BorderBrush="Black">
+			<StackPanel>
+				<RadioButton>
+					<controls:InheritanceLine/>
+				</RadioButton>
+				<RadioButton>
+					<controls:ImplementationLine/>
+				</RadioButton>
+				<RadioButton>
+					<controls:DependencyLine/>
+				</RadioButton>
+				<RadioButton>
+					<controls:AggregationLine/>
+				</RadioButton>
+				<RadioButton>
+					<controls:CompositionLine/>
+				</RadioButton>
+				<RadioButton>
+					<controls:AssociationLine/>
+				</RadioButton>
+			</StackPanel>
+		</Border>
+		<Border Grid.Column="1" BorderThickness="1" BorderBrush="Black">
+		</Border>
+		</Grid>
+
 
 
 </Window>

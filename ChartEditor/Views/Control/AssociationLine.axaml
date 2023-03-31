@@ -1,0 +1,19 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ChartEditor.Views.Control">
+  <Design.PreviewWith>
+    <controls:AssociationLine />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|AssociationLine">
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+		  <Canvas Height="20" Width="100">
+			  <Line StartPoint="0, 10" EndPoint="100, 10" Stroke="Black" StrokeThickness="2"/>
+			  <Polyline Points="80,2.5 100,10 80,17.5" Stroke="Black"/>
+		  </Canvas>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

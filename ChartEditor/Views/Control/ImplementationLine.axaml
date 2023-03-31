@@ -1,0 +1,18 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ChartEditor.Views.Control">
+  <Design.PreviewWith>
+    <controls:ImplementationLine />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|ImplementationLine">
+    <Setter Property="Template">
+      <ControlTemplate>
+		  <Canvas Height="20" Width="100" Background="Transparent">
+			  <Line StartPoint="0, 10" EndPoint="100, 10" StrokeThickness="2" Stroke="Black" StrokeDashArray="4,3"/>
+			  <Polygon Points="80,2.5 80,17.5 100,10" Fill="White" StrokeThickness="1" Stroke="Black"/>
+		  </Canvas>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

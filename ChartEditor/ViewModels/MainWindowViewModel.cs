@@ -23,9 +23,9 @@ namespace ChartEditor.ViewModels
             ObservableCollection<Line> lines = new ObservableCollection<Line>();
             lines.Add(new Line { StartPoint = new Avalonia.Point(10, 36), EndPoint = new Avalonia.Point(45, 745), Stroke = new SolidColorBrush(Colors.Black) });
             lines.Add(new Line { StartPoint = new Avalonia.Point(345, 36), EndPoint = new Avalonia.Point(45, 34), Stroke = new SolidColorBrush(Colors.Yellow) });
-            SolidColorBrush br = new SolidColorBrush(Colors.Black);
-            YamlSerializer<SolidColorBrush>.Save("pernon.yaml", br);
-            SolidColorBrush new_br = YamlSerializer<SolidColorBrush>.Load("pernon.yaml");
+            //SolidColorBrush br = new SolidColorBrush(Colors.Black);
+            //YamlSerializer<SolidColorBrush>.Save("pernon.yaml", br);
+            //SolidColorBrush new_br = YamlSerializer<SolidColorBrush>.Load("pernon.yaml");
             //YamlSerializer<ObservableCollection<Line>>.Save("pernon.yaml", lines);
             //ObservableCollection<Line> new_collection = YamlSerializer<ObservableCollection<Line>>.Load("pernon.yaml");
 

@@ -1,0 +1,20 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ChartEditor.Views.Control">
+  <Design.PreviewWith>
+    <controls:DependencyLine />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|DependencyLine">
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+		  <Canvas Height="20" Width="100" Background="Transparent">
+			  <Line StartPoint="0, 10" EndPoint="100, 10" Stroke="Black" StrokeThickness="2" StrokeDashArray="4,3"/>
+			  <TextBlock Text="Use" Background="White" Margin="25, 0"/>
+			  <Polygon Points="80,2.5 80,17.5 100,10" Fill="White" StrokeThickness="1" Stroke="Black"/>
+		  </Canvas>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

@@ -1,0 +1,19 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ChartEditor.Views.Control">
+  <Design.PreviewWith>
+    <controls:CompositionLine />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|CompositionLine">
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+		  <Canvas Height="20" Width="100">
+			  <Line StartPoint="0,10" EndPoint="100, 10" StrokeThickness="2" Stroke="Black"/>
+			  <Polygon Points="70,10 85,17.5 100,10 85,2.5" Fill="Black"/>
+		  </Canvas>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>
