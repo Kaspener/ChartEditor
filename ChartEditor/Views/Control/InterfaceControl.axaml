@@ -1,0 +1,29 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ChartEditor.Views.Control">
+  <Design.PreviewWith>
+    <controls:InterfaceControl />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|InterfaceControl">
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+		  <Grid RowDefinitions="20, 20, 20, 40" ColumnDefinitions="100">
+			  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="0">
+				  <TextBlock Text="Interface" TextAlignment="Center"/>
+			  </Border>
+			  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1">
+				  <TextBlock/>
+			  </Border>
+			  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="2">
+				  <TextBlock/>
+			  </Border>
+			  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="3">
+				  <TextBlock/>
+			  </Border>
+		  </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

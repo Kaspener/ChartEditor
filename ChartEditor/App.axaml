@@ -14,5 +14,7 @@
 		<StyleInclude Source="/Views/Control/AggregationLine.axaml"/>
 		<StyleInclude Source="/Views/Control/CompositionLine.axaml"/>
 		<StyleInclude Source="/Views/Control/AssociationLine.axaml"/>
+		<StyleInclude Source="/Views/Control/ClassControl.axaml"/>
+		<StyleInclude Source="/Views/Control/InterfaceControl.axaml"/>
 	</Application.Styles>
 </Application>
