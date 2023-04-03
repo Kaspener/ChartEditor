@@ -13,6 +13,7 @@ namespace ChartEditor.Views
     {
         private Point pointPointerPressed;
         private Point pointerPositionIntoShape;
+        private Point pointerStartPositionToResize;
         public MainWindow()
         {
             InitializeComponent();
@@ -47,10 +48,14 @@ namespace ChartEditor.Views
                         {
                             if (control is Ellipse el)
                             {
-                                pointerPositionIntoShape = pointerPressedEventArgs.GetPosition(control.Parent);
+                                pointerStartPositionToResize = pointPointerPressed;
                                 this.PointerMoved += PointerMoveResizeShape;
                                 this.PointerReleased += PointerPressedReleasedResizeShape;
                             }
+                        }
+                        if (window.IsDelete)
+                        {
+                            window.Shapes.Remove(clas);
                         }
                     }
                 }
@@ -64,6 +69,16 @@ namespace ChartEditor.Views
                             pointerPositionIntoShape = pointerPressedEventArgs.GetPosition(interCanvas);
                             this.PointerMoved += PointerMoveDragShape;
                             this.PointerReleased += PointerPressedReleasedDragShape;
+                        }
+                        if (window.IsResize)
+                        {
+                            pointerStartPositionToResize = pointPointerPressed;
+                            this.PointerMoved += PointerMoveResizeShape;
+                            this.PointerReleased += PointerPressedReleasedResizeShape;
+                        }
+                        if (window.IsDelete)
+                        {
+                            window.Shapes.Remove(inter);
                         }
                     }
                 }
@@ -117,15 +132,121 @@ namespace ChartEditor.Views
                     {
                         if (el.Name == "RightEl")
                         {
-
+                            clas.Width += currentPointerPosition.X - pointerStartPositionToResize.X;
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "DownEl")
+                        {
+                            clas.Height += currentPointerPosition.Y - pointerStartPositionToResize.Y;
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "LeftEl")
+                        {
+                            double sdvig = currentPointerPosition.X - pointerStartPositionToResize.X;
+                            clas.Width -= sdvig;
+                            clas.StartPoint = new Point(clas.StartPoint.X+sdvig, clas.StartPoint.Y);
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "UpEl")
+                        {
+                            double sdvig = currentPointerPosition.Y - pointerStartPositionToResize.Y;
+                            clas.Height -= sdvig;
+                            clas.StartPoint = new Point(clas.StartPoint.X, clas.StartPoint.Y + sdvig);
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "DownRightEl")
+                        {
+                            clas.Width += currentPointerPosition.X - pointerStartPositionToResize.X;
+                            clas.Height += currentPointerPosition.Y - pointerStartPositionToResize.Y;
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "DownLeftEl")
+                        {
+                            double sdvig = currentPointerPosition.X - pointerStartPositionToResize.X;
+                            clas.Width -= sdvig;
+                            clas.Height += currentPointerPosition.Y - pointerStartPositionToResize.Y;
+                            clas.StartPoint = new Point(clas.StartPoint.X + sdvig, clas.StartPoint.Y);
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "UpRigthEl")
+                        {
+                            double sdvig = currentPointerPosition.Y - pointerStartPositionToResize.Y;
+                            clas.Height -= sdvig;
+                            clas.Width += currentPointerPosition.X - pointerStartPositionToResize.X;
+                            clas.StartPoint = new Point(clas.StartPoint.X, clas.StartPoint.Y + sdvig);
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "UpLeftEl")
+                        {
+                            double sdvigY = currentPointerPosition.Y - pointerStartPositionToResize.Y;
+                            double sdvigX = currentPointerPosition.X - pointerStartPositionToResize.X;
+                            clas.Height -= sdvigY;
+                            clas.Width -= sdvigX;
+                            clas.StartPoint = new Point(clas.StartPoint.X + sdvigX, clas.StartPoint.Y + sdvigY);
+                            pointerStartPositionToResize = currentPointerPosition;
                         }
                     }
                 }
                 if (control.DataContext is InterfaceElement inter)
                 {
-                    inter.StartPoint = new Point(
-                        currentPointerPosition.X - pointerPositionIntoShape.X,
-                        currentPointerPosition.Y - pointerPositionIntoShape.Y);
+                    if (control is Ellipse el)
+                    {
+                        if (el.Name == "RightEl")
+                        {
+                            inter.Width += currentPointerPosition.X - pointerStartPositionToResize.X;
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "DownEl")
+                        {
+                            inter.Height += currentPointerPosition.Y - pointerStartPositionToResize.Y;
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "LeftEl")
+                        {
+                            double sdvig = currentPointerPosition.X - pointerStartPositionToResize.X;
+                            inter.Width -= sdvig;
+                            inter.StartPoint = new Point(inter.StartPoint.X + sdvig, inter.StartPoint.Y);
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "UpEl")
+                        {
+                            double sdvig = currentPointerPosition.Y - pointerStartPositionToResize.Y;
+                            inter.Height -= sdvig;
+                            inter.StartPoint = new Point(inter.StartPoint.X, inter.StartPoint.Y + sdvig);
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "DownRightEl")
+                        {
+                            inter.Width += currentPointerPosition.X - pointerStartPositionToResize.X;
+                            inter.Height += currentPointerPosition.Y - pointerStartPositionToResize.Y;
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "DownLeftEl")
+                        {
+                            double sdvig = currentPointerPosition.X - pointerStartPositionToResize.X;
+                            inter.Width -= sdvig;
+                            inter.Height += currentPointerPosition.Y - pointerStartPositionToResize.Y;
+                            inter.StartPoint = new Point(inter.StartPoint.X + sdvig, inter.StartPoint.Y);
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "UpRigthEl")
+                        {
+                            double sdvig = currentPointerPosition.Y - pointerStartPositionToResize.Y;
+                            inter.Height -= sdvig;
+                            inter.Width += currentPointerPosition.X - pointerStartPositionToResize.X;
+                            inter.StartPoint = new Point(inter.StartPoint.X, inter.StartPoint.Y + sdvig);
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                        if (el.Name == "UpLeftEl")
+                        {
+                            double sdvigY = currentPointerPosition.Y - pointerStartPositionToResize.Y;
+                            double sdvigX = currentPointerPosition.X - pointerStartPositionToResize.X;
+                            inter.Height -= sdvigY;
+                            inter.Width -= sdvigX;
+                            inter.StartPoint = new Point(inter.StartPoint.X + sdvigX, inter.StartPoint.Y + sdvigY);
+                            pointerStartPositionToResize = currentPointerPosition;
+                        }
+                    }
                 }
             }
         }

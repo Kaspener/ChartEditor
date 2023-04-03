@@ -3,11 +3,12 @@
         xmlns:controls="using:ChartEditor.Views.Control"
 		xmlns:converters="clr-namespace:ChartEditor.Converters">
   <Design.PreviewWith>
-    <controls:ClassControl GridHeight="100" GridWidth="100"/>
+    <controls:ClassControl GridHeight="100" GridWidth="100" PointsColor="Red"/>
   </Design.PreviewWith>
 
 	<Styles.Resources>
 		<converters:SetStartInLineConverter x:Key="gridSize"/>
+		<converters:MiddleLinePointConverter x:Key="middlePoint"/>
 	</Styles.Resources>
 		
 		<Style Selector="controls|ClassControl">
@@ -31,37 +32,37 @@
 						<Ellipse Name="UpLeftEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}"/>
 						<Ellipse Name="DownLeftEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
 							<Ellipse.RenderTransform>
-								<TranslateTransform X="0" Y="90"/>
+								<TranslateTransform X="0" Y="{Binding $parent[Canvas].Height, Converter={StaticResource gridSize}}"/>
 							</Ellipse.RenderTransform>
 						</Ellipse>
 						<Ellipse Name="DownRightEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
 							<Ellipse.RenderTransform>
-								<TranslateTransform X="90" Y="90"/>
+								<TranslateTransform X="{Binding $parent[Canvas].Width, Converter={StaticResource gridSize}}" Y="{Binding $parent[Canvas].Height, Converter={StaticResource gridSize}}"/>
 							</Ellipse.RenderTransform>
 						</Ellipse>
 						<Ellipse Name="UpRigthEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
 							<Ellipse.RenderTransform>
-								<TranslateTransform X="90" Y="0"/>
+								<TranslateTransform X="{Binding $parent[Canvas].Width, Converter={StaticResource gridSize}}" Y="0"/>
 							</Ellipse.RenderTransform>
 						</Ellipse>
 						<Ellipse Name="DownEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
 							<Ellipse.RenderTransform>
-								<TranslateTransform X="45" Y="90"/>
+								<TranslateTransform X="{Binding $parent[Canvas].Width, Converter={StaticResource middlePoint}}" Y="{Binding $parent[Canvas].Height, Converter={StaticResource gridSize}}"/>
 							</Ellipse.RenderTransform>
 						</Ellipse>
 						<Ellipse Name="UpEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
 							<Ellipse.RenderTransform>
-								<TranslateTransform X="45" Y="0"/>
+								<TranslateTransform X="{Binding $parent[Canvas].Width, Converter={StaticResource middlePoint}}" Y="0"/>
 							</Ellipse.RenderTransform>
 						</Ellipse>
 						<Ellipse Name="RightEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
 							<Ellipse.RenderTransform>
-								<TranslateTransform X="90" Y="45"/>
+								<TranslateTransform X="{Binding $parent[Canvas].Width, Converter={StaticResource gridSize}}" Y="{Binding $parent[Canvas].Height, Converter={StaticResource middlePoint}}"/>
 							</Ellipse.RenderTransform>
 						</Ellipse>
 						<Ellipse Name="LeftEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
 							<Ellipse.RenderTransform>
-								<TranslateTransform X="0" Y="45"/>
+								<TranslateTransform X="0" Y="{Binding $parent[Canvas].Height, Converter={StaticResource middlePoint}}"/>
 							</Ellipse.RenderTransform>
 						</Ellipse>
 					</Canvas>
