@@ -4,6 +4,7 @@ using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.VisualTree;
 using ChartEditor.Models.Grids;
+using ChartEditor.Models.Lines;
 using ChartEditor.ViewModels;
 using System.Linq;
 
@@ -57,6 +58,17 @@ namespace ChartEditor.Views
                         {
                             window.Shapes.Remove(clas);
                         }
+                        if (window.IsAggregation)
+                        {
+                            window.Shapes.Add(new AggregationLine
+                            {
+                                StartPoint = pointPointerPressed,
+                                EndPoint = pointPointerPressed,
+                                FirstGrid = clas
+                            });
+                            this.PointerMoved += PointerMoveDrawLine;
+                            this.PointerReleased += PointerPressedReleasedDrawLine;
+                        }
                     }
                 }
                 if (control.DataContext is InterfaceElement inter)
@@ -82,6 +94,7 @@ namespace ChartEditor.Views
                         }
                     }
                 }
+
             }
         }
         private void PointerMoveDragShape(object? sender, PointerEventArgs pointerEventArgs)
@@ -256,6 +269,61 @@ namespace ChartEditor.Views
         {
             this.PointerMoved -= PointerMoveResizeShape;
             this.PointerReleased -= PointerPressedReleasedResizeShape;
+        }
+
+        private void PointerMoveDrawLine(object? sender, PointerEventArgs pointerEventArgs)
+        {
+            if (this.DataContext is MainWindowViewModel viewModel)
+            {
+                if (viewModel.Shapes[viewModel.Shapes.Count - 1] is AggregationLine aggr)
+                {
+                    Point currentPointerPosition = pointerEventArgs
+                    .GetPosition(
+                    this.GetVisualDescendants()
+                    .OfType<Canvas>()
+                    .FirstOrDefault(canvas => string.IsNullOrEmpty(canvas.Name) == false &&
+                        canvas.Name.Equals("mainCanvas")));
+                    aggr.EndPoint = new Point(currentPointerPosition.X - 1, currentPointerPosition.Y - 1);
+                }
+            }
+        }
+        private void PointerPressedReleasedDrawLine(object? sender,
+            PointerReleasedEventArgs pointerReleasedEventArgs)
+        {
+            this.PointerMoved -= PointerMoveDrawLine;
+            this.PointerReleased -= PointerPressedReleasedDrawLine;
+
+            var canvas = this.GetVisualDescendants()
+                        .OfType<Canvas>()
+                        .FirstOrDefault(canvas => string.IsNullOrEmpty(canvas.Name) == false &&
+                        canvas.Name.Equals("mainCanvas"));
+
+            var coords = pointerReleasedEventArgs.GetPosition(canvas);
+
+            var element = canvas.InputHitTest(coords);
+            MainWindowViewModel viewModel = this.DataContext as MainWindowViewModel;
+
+            if (element is Ellipse ellipse)
+            {
+                if (ellipse.DataContext is ClassElement clas)
+                {
+                    if (viewModel.Shapes[viewModel.Shapes.Count - 1] is AggregationLine aggr)
+                    {
+                        aggr.SecondGrid = clas;
+                    }
+                    return;
+                }
+                if (ellipse.DataContext is InterfaceElement inter)
+                {
+                    if (viewModel.Shapes[viewModel.Shapes.Count - 1] is AggregationLine aggr)
+                    {
+                        aggr.SecondGrid = inter;
+                    }
+                    return;
+                }
+            }
+
+            viewModel.Shapes.RemoveAt(viewModel.Shapes.Count - 1);
         }
     }
 }

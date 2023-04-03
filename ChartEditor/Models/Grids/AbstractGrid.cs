@@ -17,7 +17,20 @@ namespace ChartEditor.Models.Grids
         public Point StartPoint
         {
             get => startPoint;
-            set => SetAndRaise(ref startPoint, value);
+            set
+            {
+                Point oldPoint = StartPoint;
+                SetAndRaise(ref startPoint, value);
+                if (ChangeStartPoint != null)
+                {
+                    ChangeStartPointEventArgs args = new ChangeStartPointEventArgs
+                    {
+                        OldStartPoint = oldPoint,
+                        NewStartPoint = StartPoint
+                    };
+                    ChangeStartPoint(this, args);
+                }
+            }
         }
         public double Height
         {
@@ -29,5 +42,6 @@ namespace ChartEditor.Models.Grids
             get => width;
             set => SetAndRaise(ref width, value);
         }
+        public event EventHandler<ChangeStartPointEventArgs> ChangeStartPoint;
     }
 }

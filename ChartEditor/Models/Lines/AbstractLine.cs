@@ -41,7 +41,11 @@ namespace ChartEditor.Models.Lines
         public Point StartPoint
         {
             get => startPoint;
-            set => SetAndRaise(ref startPoint, value);
+            set
+            {
+                SetAndRaise(ref startPoint, value);
+                Calc();
+            }
         }
 
         public Point EndPoint
@@ -50,27 +54,50 @@ namespace ChartEditor.Models.Lines
             set 
             { 
                 SetAndRaise(ref endPoint, value);
-                Lenght = Math.Sqrt(Math.Pow(endPoint.X - startPoint.X, 2) + Math.Pow(endPoint.Y - startPoint.Y, 2));
-                LineCenterX = startPoint.X - (lenght / 2);
-                double dx = endPoint.X - startPoint.X;
-                if (startPoint.Y > endPoint.Y)
+                Calc();
+            }
+        }
+
+        public AbstractGrid FirstGrid
+        {
+            get => firstGrid;
+            set
+            {
+                firstGrid = value;
+                if (firstGrid != null)
                 {
-                    Angle = -Math.Acos(dx / lenght) * 180 / Math.PI;
-                }
-                else
-                {
-                    Angle = Math.Acos(dx / lenght) * 180 / Math.PI;
+                    firstGrid.ChangeStartPoint += OnFirstGridPositionChanged;
                 }
             }
         }
 
-        public void CalcLenght()
+        public AbstractGrid SecondGrid
         {
-            Lenght = Math.Sqrt(Math.Pow(endPoint.X - startPoint.X, 2) + Math.Pow(endPoint.Y - startPoint.Y, 2));
+            get => secondGrid;
+            set
+            {
+                secondGrid = value;
+                if (secondGrid != null)
+                {
+                    secondGrid.ChangeStartPoint += OnSecondGridPositionChanged;
+                }
+            }
         }
 
-        public void CalcAngle()
+        private void OnFirstGridPositionChanged(object? sender, ChangeStartPointEventArgs e)
         {
+            StartPoint += e.NewStartPoint - e.OldStartPoint;
+        }
+
+        private void OnSecondGridPositionChanged(object? sender, ChangeStartPointEventArgs e)
+        {
+            EndPoint += e.NewStartPoint - e.OldStartPoint;
+        }
+
+        private void Calc()
+        {
+            Lenght = Math.Sqrt(Math.Pow(endPoint.X - startPoint.X, 2) + Math.Pow(endPoint.Y - startPoint.Y, 2));
+            LineCenterX = startPoint.X - (lenght / 2);
             double dx = endPoint.X - startPoint.X;
             if (startPoint.Y > endPoint.Y)
             {
@@ -84,7 +111,14 @@ namespace ChartEditor.Models.Lines
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            if (FirstGrid != null)
+            {
+                FirstGrid.ChangeStartPoint -= OnFirstGridPositionChanged;
+            }
+            if (SecondGrid != null)
+            {
+                SecondGrid.ChangeStartPoint -= OnSecondGridPositionChanged;
+            }
         }
     }
 }
