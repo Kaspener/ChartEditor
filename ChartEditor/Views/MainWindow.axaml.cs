@@ -58,16 +58,19 @@ namespace ChartEditor.Views
                         {
                             window.Shapes.Remove(clas);
                         }
-                        if (window.IsAggregation)
+                        if (control is Ellipse ellipse)
                         {
-                            window.Shapes.Add(new AggregationLine
+                            if (window.IsAggregation)
                             {
-                                StartPoint = pointPointerPressed,
-                                EndPoint = pointPointerPressed,
-                                FirstGrid = clas
-                            });
-                            this.PointerMoved += PointerMoveDrawLine;
-                            this.PointerReleased += PointerPressedReleasedDrawLine;
+                                window.Shapes.Add(new AggregationLine
+                                {
+                                    StartPoint = pointPointerPressed,
+                                    EndPoint = pointPointerPressed,
+                                    FirstGrid = clas
+                                });
+                                this.PointerMoved += PointerMoveDrawLine;
+                                this.PointerReleased += PointerPressedReleasedDrawLine;
+                            }
                         }
                     }
                 }
@@ -310,14 +313,6 @@ namespace ChartEditor.Views
                     if (viewModel.Shapes[viewModel.Shapes.Count - 1] is AggregationLine aggr)
                     {
                         aggr.SecondGrid = clas;
-                    }
-                    return;
-                }
-                if (ellipse.DataContext is InterfaceElement inter)
-                {
-                    if (viewModel.Shapes[viewModel.Shapes.Count - 1] is AggregationLine aggr)
-                    {
-                        aggr.SecondGrid = inter;
                     }
                     return;
                 }

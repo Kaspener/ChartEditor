@@ -96,7 +96,15 @@ namespace ChartEditor.Models.Lines
 
         private void Calc()
         {
-            Lenght = Math.Sqrt(Math.Pow(endPoint.X - startPoint.X, 2) + Math.Pow(endPoint.Y - startPoint.Y, 2));
+            var len = Math.Sqrt(Math.Pow(endPoint.X - startPoint.X, 2) + Math.Pow(endPoint.Y - startPoint.Y, 2));
+            if (len == 0)
+            {
+                Lenght = 1;
+            }
+            else
+            {
+                Lenght = len;
+            }
             LineCenterX = startPoint.X - (lenght / 2);
             double dx = endPoint.X - startPoint.X;
             if (startPoint.Y > endPoint.Y)
