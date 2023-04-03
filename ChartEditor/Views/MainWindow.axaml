@@ -4,7 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:controls="clr-namespace:ChartEditor.Views.Control"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		xmlns:lines="clr-namespace:ChartEditor.Models.Lines"
+		xmlns:grids="clr-namespace:ChartEditor.Models.Grids"
+		xmlns:converters="clr-namespace:ChartEditor.Converters"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="920"
         x:Class="ChartEditor.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="ChartEditor">
@@ -13,39 +16,148 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-	<Grid ColumnDefinitions="150, *">
-		<Border Grid.Column="0" BorderThickness="1" BorderBrush="Black">
-			<StackPanel>
-				<RadioButton>
-					<controls:ClassControl/>
-				</RadioButton>
-				<RadioButton Margin="0, 10">
-					<controls:InterfaceControl/>
-				</RadioButton>
-				<RadioButton>
-					<controls:InheritanceLine/>
-				</RadioButton>
-				<RadioButton>
-					<controls:ImplementationLine/>
-				</RadioButton>
-				<RadioButton>
-					<controls:DependencyLine/>
-				</RadioButton>
-				<RadioButton>
-					<controls:AggregationLine/>
-				</RadioButton>
-				<RadioButton>
-					<controls:CompositionLine/>
-				</RadioButton>
-				<RadioButton>
-					<controls:AssociationLine/>
-				</RadioButton>
-			</StackPanel>
-		</Border>
-		<Border Grid.Column="1" BorderThickness="1" BorderBrush="Black">
-		</Border>
+	<Window.Resources>
+		<converters:SetStartInLineConverter x:Key="startInLine"/>
+	</Window.Resources>
+	
+	<Grid RowDefinitions="30, *">
+		<DockPanel Grid.Row="0">
+			<Menu DockPanel.Dock="Top">
+				<MenuItem Name="menuExport" Header="Экспортировать">
+					<MenuItem Header="Экспортировать в PNG"/>
+					<MenuItem Header="Экспортировать в JSON"/>
+					<MenuItem Header="Экспортировать в XML"/>
+					<MenuItem Header="Экспортировать в YAML"/>
+				</MenuItem>
+				<MenuItem Name="menuImport" Header="Импортировать">
+					<MenuItem Header="Импортировать в JSON"/>
+					<MenuItem Header="Импортировать в XML"/>
+					<MenuItem Header="Импортировать в YAML"/>
+				</MenuItem>
+			</Menu>
+		</DockPanel>
+		<Grid Grid.Row="1" ColumnDefinitions="150, *">
+				<Border Grid.Column="0" BorderThickness="1" BorderBrush="Black">
+					<StackPanel>
+						<RadioButton IsChecked="{Binding IsClass}">
+							<controls:ClassControl PointsColor="Transparent" GridHeight="100" GridWidth="100"/>
+						</RadioButton>
+						<RadioButton IsChecked="{Binding IsInterface}" Margin="0, 10">
+							<controls:InterfaceControl PointsColor="Transparent" GridHeight="100" GridWidth="100"/>
+						</RadioButton>
+						<RadioButton IsChecked="{Binding IsInheritance}">
+							<controls:InheritanceLineControl Lenght="100"/>
+						</RadioButton>
+						<RadioButton IsChecked="{Binding IsImplementation}">
+							<controls:ImplementationLineControl Lenght="100"/>
+						</RadioButton>
+						<RadioButton IsChecked="{Binding IsDependency}">
+							<controls:DependencyLineControl Lenght="100"/>
+						</RadioButton>
+						<RadioButton IsChecked="{Binding IsAggregation}">
+							<controls:AggregationLineControl Lenght="100"/>
+						</RadioButton>
+						<RadioButton IsChecked="{Binding IsComposition}">
+							<controls:CompositionLineControl Lenght="100"/>
+						</RadioButton>
+						<RadioButton IsChecked="{Binding IsAssociation}">
+							<controls:AssociationLineControl Lenght="100"/>
+						</RadioButton>
+						<RadioButton Content="Resize" IsChecked="{Binding IsResize}"/>
+						<RadioButton Content="Move" IsChecked="{Binding IsMove}"/>
+						<RadioButton Content="Delete" IsChecked="{Binding IsDelete}"/>
+					</StackPanel>
+				</Border>
+			<Border Grid.Column="1" BorderThickness="1" BorderBrush="Black">
+				<ItemsControl PointerPressed="PointerPressedOnMainCanvas" Items="{Binding Shapes}">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<Canvas Name="mainCanvas" Background="Transparent"/>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+					<ItemsControl.DataTemplates>
+						<DataTemplate DataType="{x:Type grids:ClassElement}">
+							<controls:ClassControl PointsColor="LightBlue" GridHeight="{Binding Height}" GridWidth="{Binding Width}">
+								<controls:ClassControl.RenderTransform>
+									<TransformGroup>
+										<TranslateTransform X="{Binding StartPoint.X}" Y="{Binding StartPoint.Y}"/>
+									</TransformGroup>
+								</controls:ClassControl.RenderTransform>
+							</controls:ClassControl>
+						</DataTemplate>
+						<DataTemplate DataType="{x:Type grids:InterfaceElement}">
+							<controls:InterfaceControl PointsColor="LightBlue" GridHeight="{Binding Height}" GridWidth="{Binding Width}">
+								<controls:InterfaceControl.RenderTransform>
+									<TransformGroup>
+										<TranslateTransform X="{Binding StartPoint.X}" Y="{Binding StartPoint.Y}"/>
+									</TransformGroup>
+								</controls:InterfaceControl.RenderTransform>
+							</controls:InterfaceControl>
+						</DataTemplate>
+						<DataTemplate DataType="{x:Type	lines:AggregationLine}">
+							<controls:AggregationLineControl Lenght="{Binding Lenght}">
+								<controls:AggregationLineControl.RenderTransform>
+									<TransformGroup>
+										<TranslateTransform X="{Binding StartPoint.X}" Y="{Binding StartPoint.Y, Converter={StaticResource startInLine}}"/>
+										<RotateTransform Angle="{Binding Angle}" CenterX="{Binding LineCenterX}" CenterY="{Binding StartPoint.Y, Converter={StaticResource startInLine}}}"/>
+									</TransformGroup>
+								</controls:AggregationLineControl.RenderTransform>
+							</controls:AggregationLineControl>
+						</DataTemplate>
+						<DataTemplate DataType="{x:Type	lines:AssociationLine}">
+							<controls:AssociationLineControl Lenght="{Binding Lenght}">
+								<controls:AssociationLineControl.RenderTransform>
+									<TransformGroup>
+										<TranslateTransform X="{Binding StartPoint.X}" Y="{Binding StartPoint.Y, Converter={StaticResource startInLine}}"/>
+										<RotateTransform Angle="{Binding Angle}" CenterX="{Binding LineCenterX}" CenterY="{Binding StartPoint.Y, Converter={StaticResource startInLine}}}"/>
+									</TransformGroup>
+								</controls:AssociationLineControl.RenderTransform>
+							</controls:AssociationLineControl>
+						</DataTemplate>
+						<DataTemplate DataType="{x:Type	lines:CompositionLine}">
+							<controls:CompositionLineControl Lenght="{Binding Lenght}">
+								<controls:CompositionLineControl.RenderTransform>
+									<TransformGroup>
+										<TranslateTransform X="{Binding StartPoint.X}" Y="{Binding StartPoint.Y, Converter={StaticResource startInLine}}"/>
+										<RotateTransform Angle="{Binding Angle}" CenterX="{Binding LineCenterX}" CenterY="{Binding StartPoint.Y, Converter={StaticResource startInLine}}}"/>
+									</TransformGroup>
+								</controls:CompositionLineControl.RenderTransform>
+							</controls:CompositionLineControl>
+						</DataTemplate>
+						<DataTemplate DataType="{x:Type	lines:DependencyLine}">
+							<controls:DependencyLineControl Lenght="{Binding Lenght}">
+								<controls:DependencyLineControl.RenderTransform>
+									<TransformGroup>
+										<TranslateTransform X="{Binding StartPoint.X}" Y="{Binding StartPoint.Y, Converter={StaticResource startInLine}}"/>
+										<RotateTransform Angle="{Binding Angle}" CenterX="{Binding LineCenterX}" CenterY="{Binding StartPoint.Y, Converter={StaticResource startInLine}}}"/>
+									</TransformGroup>
+								</controls:DependencyLineControl.RenderTransform>
+							</controls:DependencyLineControl>
+						</DataTemplate>
+						<DataTemplate DataType="{x:Type	lines:ImplementationLine}">
+							<controls:ImplementationLineControl Lenght="{Binding Lenght}">
+								<controls:ImplementationLineControl.RenderTransform>
+									<TransformGroup>
+										<TranslateTransform X="{Binding StartPoint.X}" Y="{Binding StartPoint.Y, Converter={StaticResource startInLine}}"/>
+										<RotateTransform Angle="{Binding Angle}" CenterX="{Binding LineCenterX}" CenterY="{Binding StartPoint.Y, Converter={StaticResource startInLine}}}"/>
+									</TransformGroup>
+								</controls:ImplementationLineControl.RenderTransform>
+							</controls:ImplementationLineControl>
+						</DataTemplate>
+						<DataTemplate DataType="{x:Type	lines:InheritanceLine}">
+							<controls:InheritanceLineControl Lenght="{Binding Lenght}">
+								<controls:InheritanceLineControl.RenderTransform>
+									<TransformGroup>
+										<TranslateTransform X="{Binding StartPoint.X}" Y="{Binding StartPoint.Y, Converter={StaticResource startInLine}}"/>
+										<RotateTransform Angle="{Binding Angle}" CenterX="{Binding LineCenterX}" CenterY="{Binding StartPoint.Y, Converter={StaticResource startInLine}}}"/>
+									</TransformGroup>
+								</controls:InheritanceLineControl.RenderTransform>
+							</controls:InheritanceLineControl>
+						</DataTemplate>
+					</ItemsControl.DataTemplates>
+				</ItemsControl>
+			</Border>
 		</Grid>
-
-
+	</Grid>
 
 </Window>

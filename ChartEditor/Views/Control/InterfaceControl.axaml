@@ -1,28 +1,74 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="using:ChartEditor.Views.Control">
+        xmlns:controls="using:ChartEditor.Views.Control"
+		xmlns:converters="clr-namespace:ChartEditor.Converters">
+		
   <Design.PreviewWith>
-    <controls:InterfaceControl />
+    <controls:InterfaceControl PointsColor="LightBlue" GridHeight="100" GridWidth="100"/>
   </Design.PreviewWith>
 
+	<Styles.Resources>
+		<converters:SetStartInLineConverter x:Key="gridSize"/>
+	</Styles.Resources>
+
   <Style Selector="controls|InterfaceControl">
-    <!-- Set Defaults -->
     <Setter Property="Template">
       <ControlTemplate>
-		  <Grid RowDefinitions="20, 20, 20, 40" ColumnDefinitions="100">
-			  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="0">
-				  <TextBlock Text="Interface" TextAlignment="Center"/>
-			  </Border>
-			  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1">
-				  <TextBlock/>
-			  </Border>
-			  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="2">
-				  <TextBlock/>
-			  </Border>
-			  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="3">
-				  <TextBlock/>
-			  </Border>
-		  </Grid>
+		  <Canvas Name="InterfaceCanvas" Height="{TemplateBinding GridHeight}" Width="{TemplateBinding GridWidth}" Background="Transparent">
+			  <Grid Height="{Binding $parent[Canvas].Height, Converter={StaticResource gridSize}}" Width="{Binding $parent[Canvas].Width, , Converter={StaticResource gridSize}}" RowDefinitions="28*, 20*, 20*, 32*" ColumnDefinitions="*" Margin="5" Background="White">
+				  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="0">
+					  <StackPanel>
+						  <TextBlock Text="«interface»" FontSize="10" TextAlignment="Center" FontStyle="Italic"/>
+						  <TextBlock Text="Interface" TextAlignment="Center" FontWeight="Bold" Margin="0,-4"/>
+					  </StackPanel>
+				  </Border>
+				  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1">
+					  <TextBlock/>
+				  </Border>
+				  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="2">
+					  <TextBlock/>
+				  </Border>
+				  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="3">
+					  <TextBlock/>
+				  </Border>
+			  </Grid>
+			  <Ellipse Name="UpLeftEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}"/>
+			  <Ellipse Name="DownLeftEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
+				  <Ellipse.RenderTransform>
+					  <TranslateTransform X="0" Y="90"/>
+				  </Ellipse.RenderTransform>
+			  </Ellipse>
+			  <Ellipse Name="DownRightEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
+				  <Ellipse.RenderTransform>
+					  <TranslateTransform X="90" Y="90"/>
+				  </Ellipse.RenderTransform>
+			  </Ellipse>
+			  <Ellipse Name="UpRigthEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
+				  <Ellipse.RenderTransform>
+					  <TranslateTransform X="90" Y="0"/>
+				  </Ellipse.RenderTransform>
+			  </Ellipse>
+			  <Ellipse Name="DownEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
+				  <Ellipse.RenderTransform>
+					  <TranslateTransform X="45" Y="90"/>
+				  </Ellipse.RenderTransform>
+			  </Ellipse>
+			  <Ellipse Name="UpEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
+				  <Ellipse.RenderTransform>
+					  <TranslateTransform X="45" Y="0"/>
+				  </Ellipse.RenderTransform>
+			  </Ellipse>
+			  <Ellipse Name="RightEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
+				  <Ellipse.RenderTransform>
+					  <TranslateTransform X="90" Y="45"/>
+				  </Ellipse.RenderTransform>
+			  </Ellipse>
+			  <Ellipse Name="LeftEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
+				  <Ellipse.RenderTransform>
+					  <TranslateTransform X="0" Y="45"/>
+				  </Ellipse.RenderTransform>
+			  </Ellipse>
+		  </Canvas>
       </ControlTemplate>
     </Setter>
   </Style>

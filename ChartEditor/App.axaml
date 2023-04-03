@@ -8,12 +8,12 @@
 
     <Application.Styles>
         <FluentTheme Mode="Light"/>
-		<StyleInclude Source="/Views/Control/InheritanceLine.axaml"/>
-		<StyleInclude Source="/Views/Control/ImplementationLine.axaml"/>
-		<StyleInclude Source="/Views/Control/DependencyLine.axaml"/>
-		<StyleInclude Source="/Views/Control/AggregationLine.axaml"/>
-		<StyleInclude Source="/Views/Control/CompositionLine.axaml"/>
-		<StyleInclude Source="/Views/Control/AssociationLine.axaml"/>
+		<StyleInclude Source="/Views/Control/InheritanceLineControl.axaml"/>
+		<StyleInclude Source="/Views/Control/ImplementationLineControl.axaml"/>
+		<StyleInclude Source="/Views/Control/DependencyLineControl.axaml"/>
+		<StyleInclude Source="/Views/Control/AggregationLineControl.axaml"/>
+		<StyleInclude Source="/Views/Control/CompositionLineControl.axaml"/>
+		<StyleInclude Source="/Views/Control/AssociationLineControl.axaml"/>
 		<StyleInclude Source="/Views/Control/ClassControl.axaml"/>
 		<StyleInclude Source="/Views/Control/InterfaceControl.axaml"/>
 	</Application.Styles>

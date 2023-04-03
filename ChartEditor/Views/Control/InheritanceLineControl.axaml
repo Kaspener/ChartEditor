@@ -1,0 +1,26 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ChartEditor.Views.Control"
+		xmlns:converters="clr-namespace:ChartEditor.Converters">
+  <Design.PreviewWith>
+    <controls:InheritanceLineControl Lenght="100"/>
+  </Design.PreviewWith>
+
+	<Styles.Resources>
+		<converters:LenghtToPointConverter x:Key="lenghtToPoint"/>
+		<converters:LenghtToTreePointsConverter x:Key="lenghtToTreePoints"/>
+		<converters:LenghtToExtendTextMarginConverter x:Key="lenghtToExtendTextMargin"/>
+	</Styles.Resources>
+
+  <Style Selector="controls|InheritanceLineControl">
+    <Setter Property="Template">
+      <ControlTemplate>
+		  <Canvas Height="20" Width="{TemplateBinding Lenght}" Background="Transparent">
+			  <Line StartPoint="0, 10" EndPoint="{TemplateBinding Lenght, Converter={StaticResource lenghtToPoint}}" Stroke="Black" StrokeThickness="2"/>
+			  <TextBlock Text="Extends" Background="White" Margin="{TemplateBinding Lenght, Converter={StaticResource lenghtToExtendTextMargin}}"/>
+			  <Polygon Points="{TemplateBinding Lenght, Converter={StaticResource lenghtToTreePoints}}" Fill="White" StrokeThickness="1" Stroke="Black"/>
+		  </Canvas>
+        </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

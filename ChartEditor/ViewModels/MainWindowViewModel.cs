@@ -13,22 +13,92 @@ using ChartEditor.Models;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using ChartEditor.Models.Serializers;
+using Avalonia;
+using ChartEditor.Models.Lines;
+using System.Drawing.Printing;
+using System.Runtime.CompilerServices;
 
 namespace ChartEditor.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private ObservableCollection<AbstractElement> shapes;
+        private bool isClass = false;
+        private bool isInterface = false;
+        private bool isAggregation = false;
+        private bool isAssociation = false;
+        private bool isComposition = false;
+        private bool isDependency = false;
+        private bool isImplementation = false;
+        private bool isInheritance = false;
+        private bool isResize = false;
+        private bool isMove = false;
+        private bool isDelete = false;
         public MainWindowViewModel()
         {
-            ObservableCollection<Line> lines = new ObservableCollection<Line>();
-            lines.Add(new Line { StartPoint = new Avalonia.Point(10, 36), EndPoint = new Avalonia.Point(45, 745), Stroke = new SolidColorBrush(Colors.Black) });
-            lines.Add(new Line { StartPoint = new Avalonia.Point(345, 36), EndPoint = new Avalonia.Point(45, 34), Stroke = new SolidColorBrush(Colors.Yellow) });
-            //SolidColorBrush br = new SolidColorBrush(Colors.Black);
-            //YamlSerializer<SolidColorBrush>.Save("pernon.yaml", br);
-            //SolidColorBrush new_br = YamlSerializer<SolidColorBrush>.Load("pernon.yaml");
-            //YamlSerializer<ObservableCollection<Line>>.Save("pernon.yaml", lines);
-            //ObservableCollection<Line> new_collection = YamlSerializer<ObservableCollection<Line>>.Load("pernon.yaml");
+            IsMove = true;
+            Shapes = new ObservableCollection<AbstractElement>();
+        }
 
+        public ObservableCollection<AbstractElement> Shapes
+        {
+            get => shapes;
+            set => this.RaiseAndSetIfChanged(ref shapes, value);
+        }
+        public bool IsClass
+        {
+            get => isClass;
+            set => this.RaiseAndSetIfChanged(ref isClass, value);
+        }
+        public bool IsInterface
+        {
+            get => isInterface;
+            set => this.RaiseAndSetIfChanged(ref isInterface, value);
+        }
+        public bool IsAggregation
+        {
+            get => isAggregation;
+            set => this.RaiseAndSetIfChanged(ref isAggregation, value);
+        }
+        public bool IsAssociation
+        {
+            get => isAssociation;
+            set => this.RaiseAndSetIfChanged(ref isAssociation, value);
+        }
+        public bool IsComposition
+        {
+            get => isComposition;
+            set => this.RaiseAndSetIfChanged(ref isComposition, value);
+        }
+        public bool IsDependency 
+        {
+            get => isDependency;
+            set => this.RaiseAndSetIfChanged(ref isDependency, value);
+        }
+        public bool IsImplementation
+        {
+            get => isImplementation; 
+            set => this.RaiseAndSetIfChanged(ref isImplementation, value);
+        }
+        public bool IsInheritance
+        {
+            get => isInheritance;
+            set => this.RaiseAndSetIfChanged(ref isInheritance, value);
+        }
+        public bool IsResize
+        {
+            get => isResize;
+            set => this.RaiseAndSetIfChanged(ref isResize, value);
+        }
+        public bool IsMove
+        {
+            get => isMove;
+            set => this.RaiseAndSetIfChanged(ref isMove, value);
+        }
+        public bool IsDelete
+        {
+            get => isDelete;
+            set => this.RaiseAndSetIfChanged(ref isDelete, value);
         }
     }
 }

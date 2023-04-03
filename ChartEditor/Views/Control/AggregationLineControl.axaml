@@ -1,0 +1,24 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ChartEditor.Views.Control"
+		xmlns:converters="clr-namespace:ChartEditor.Converters">
+	<Design.PreviewWith>
+		<controls:AggregationLineControl Lenght="100"/>
+	</Design.PreviewWith>
+
+	<Styles.Resources>
+		<converters:LenghtToPointConverter x:Key="lenghtToPoint"/>
+		<converters:LenghtToFourPointsConverter x:Key="lenghtToFourPoints"/>
+	</Styles.Resources>
+
+	<Style Selector="controls|AggregationLineControl">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Canvas Height="20" Width="{TemplateBinding Lenght}" Background="Transparent">
+					<Line StartPoint="0,10" EndPoint="{TemplateBinding Lenght, Converter={StaticResource lenghtToPoint}}" StrokeThickness="2" Stroke="Black"/>
+					<Polygon Points="{TemplateBinding Lenght, Converter={StaticResource lenghtToFourPoints}}" Fill="White" StrokeThickness="1" Stroke="Black"/>
+				</Canvas>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>
