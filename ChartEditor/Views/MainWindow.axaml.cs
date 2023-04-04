@@ -35,6 +35,16 @@ namespace ChartEditor.Views
                     if (mainWindow.IsClass) mainWindow.Shapes.Add(new ClassElement { StartPoint = pointPointerPressed, Height=100, Width=100 });
                     if (mainWindow.IsInterface) mainWindow.Shapes.Add(new InterfaceElement { StartPoint = pointPointerPressed, Height = 100, Width = 100 });
                 }
+                if (control.DataContext is AbstractLine line)
+                {
+                    if (this.DataContext is MainWindowViewModel window)
+                    {
+                        if (window.IsDelete)
+                        {
+                            window.Shapes.Remove(line);
+                        }
+                    }
+                }
                 if (control.DataContext is ClassElement clas)
                 {
                     if (this.DataContext is MainWindowViewModel window)
@@ -60,13 +70,24 @@ namespace ChartEditor.Views
                         }
                         if (control is Ellipse ellipse)
                         {
+                            int ellipseNum = 0;
+                            if (ellipse.Name == "UpLeftEl") ellipseNum = 0;
+                            if (ellipse.Name == "UpEl") ellipseNum = 1;
+                            if (ellipse.Name == "UpRightEl") ellipseNum = 2;
+                            if (ellipse.Name == "LeftEl") ellipseNum = 3;
+                            if (ellipse.Name == "RightEl") ellipseNum = 4;
+                            if (ellipse.Name == "DownLeftEl") ellipseNum = 5;
+                            if (ellipse.Name == "DownEl") ellipseNum = 6;
+                            if (ellipse.Name == "DownRightEl") ellipseNum = 7;
+
                             if (window.IsAggregation)
                             {
                                 window.Shapes.Add(new AggregationLine
                                 {
                                     StartPoint = pointPointerPressed,
                                     EndPoint = pointPointerPressed,
-                                    FirstGrid = clas
+                                    FirstGrid = clas,
+                                    ConnectionPointFirst = ellipseNum
                                 });
                                 this.PointerMoved += PointerMoveDrawLine;
                                 this.PointerReleased += PointerPressedReleasedDrawLine;
@@ -184,7 +205,7 @@ namespace ChartEditor.Views
                             clas.StartPoint = new Point(clas.StartPoint.X + sdvig, clas.StartPoint.Y);
                             pointerStartPositionToResize = currentPointerPosition;
                         }
-                        if (el.Name == "UpRigthEl")
+                        if (el.Name == "UpRightEl")
                         {
                             double sdvig = currentPointerPosition.Y - pointerStartPositionToResize.Y;
                             clas.Height -= sdvig;
@@ -245,7 +266,7 @@ namespace ChartEditor.Views
                             inter.StartPoint = new Point(inter.StartPoint.X + sdvig, inter.StartPoint.Y);
                             pointerStartPositionToResize = currentPointerPosition;
                         }
-                        if (el.Name == "UpRigthEl")
+                        if (el.Name == "UpRightEl")
                         {
                             double sdvig = currentPointerPosition.Y - pointerStartPositionToResize.Y;
                             inter.Height -= sdvig;
@@ -286,7 +307,9 @@ namespace ChartEditor.Views
                     .OfType<Canvas>()
                     .FirstOrDefault(canvas => string.IsNullOrEmpty(canvas.Name) == false &&
                         canvas.Name.Equals("mainCanvas")));
-                    aggr.EndPoint = new Point(currentPointerPosition.X - 1, currentPointerPosition.Y - 1);
+                    var x = currentPointerPosition.X > aggr.StartPoint.X ? -1 : 1;
+                    var y = currentPointerPosition.Y > aggr.StartPoint.Y ? -1 : 1;
+                    aggr.EndPoint = new Point(currentPointerPosition.X + x, currentPointerPosition.Y + y);
                 }
             }
         }
@@ -310,9 +333,19 @@ namespace ChartEditor.Views
             {
                 if (ellipse.DataContext is ClassElement clas)
                 {
+                    int ellipseNum = 0;
+                    if (ellipse.Name == "UpLeftEl") ellipseNum = 0;
+                    if (ellipse.Name == "UpEl") ellipseNum = 1;
+                    if (ellipse.Name == "UpRightEl") ellipseNum = 2;
+                    if (ellipse.Name == "LeftEl") ellipseNum = 3;
+                    if (ellipse.Name == "RightEl") ellipseNum = 4;
+                    if (ellipse.Name == "DownLeftEl") ellipseNum = 5;
+                    if (ellipse.Name == "DownEl") ellipseNum = 6;
+                    if (ellipse.Name == "DownRightEl") ellipseNum = 7;
                     if (viewModel.Shapes[viewModel.Shapes.Count - 1] is AggregationLine aggr)
                     {
                         aggr.SecondGrid = clas;
+                        aggr.ConnectionPointSecond = ellipseNum;
                     }
                     return;
                 }

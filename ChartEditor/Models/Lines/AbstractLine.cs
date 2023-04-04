@@ -19,6 +19,8 @@ namespace ChartEditor.Models.Lines
         private AbstractGrid firstGrid;
         private AbstractGrid secondGrid;
         private double lineCenterX;
+        private int connectionPointFirst;
+        private int connectionPointSecond;
 
         public double Lenght
         {
@@ -67,6 +69,8 @@ namespace ChartEditor.Models.Lines
                 if (firstGrid != null)
                 {
                     firstGrid.ChangeStartPoint += OnFirstGridPositionChanged;
+                    firstGrid.ChangeHeight += OnFirstGridHeightChanged;
+                    firstGrid.ChangeWidth += OnFirstGridWidthChanged;
                 }
             }
         }
@@ -80,19 +84,65 @@ namespace ChartEditor.Models.Lines
                 if (secondGrid != null)
                 {
                     secondGrid.ChangeStartPoint += OnSecondGridPositionChanged;
+                    secondGrid.ChangeHeight += OnSecondGridHeightChanged;
+                    secondGrid.ChangeWidth += OnSecondGridWidthChanged;
                 }
             }
+        }
+
+        public int ConnectionPointFirst
+        {
+            get => connectionPointFirst;
+            set => SetAndRaise(ref connectionPointFirst, value);
+        }
+        public int ConnectionPointSecond
+        {
+            get => connectionPointSecond;
+            set => SetAndRaise(ref connectionPointSecond, value);
         }
 
         private void OnFirstGridPositionChanged(object? sender, ChangeStartPointEventArgs e)
         {
             StartPoint += e.NewStartPoint - e.OldStartPoint;
         }
+        private void OnFirstGridHeightChanged(object? sender, ChangeSizeEventArgs e)
+        {
+            if (connectionPointFirst == 3) StartPoint = new Point(StartPoint.X, StartPoint.Y + (e.NewSize - e.OldSize) / 2);
+            if (connectionPointFirst == 4) StartPoint = new Point(StartPoint.X, StartPoint.Y + (e.NewSize - e.OldSize) / 2);
+            if (connectionPointFirst == 5) StartPoint = new Point(StartPoint.X, StartPoint.Y + e.NewSize - e.OldSize);
+            if (connectionPointFirst == 6) StartPoint = new Point(StartPoint.X, StartPoint.Y + e.NewSize - e.OldSize);
+            if (connectionPointFirst == 7) StartPoint = new Point(StartPoint.X, StartPoint.Y + e.NewSize - e.OldSize);
+        }
+        private void OnFirstGridWidthChanged(object? sender, ChangeSizeEventArgs e)
+        {
+            if (connectionPointFirst == 1) StartPoint = new Point(StartPoint.X + (e.NewSize - e.OldSize) / 2, StartPoint.Y);
+            if (connectionPointFirst == 2) StartPoint = new Point(StartPoint.X + e.NewSize - e.OldSize, StartPoint.Y);
+            if (connectionPointFirst == 4) StartPoint = new Point(StartPoint.X + e.NewSize - e.OldSize, StartPoint.Y);
+            if (connectionPointFirst == 6) StartPoint = new Point(StartPoint.X + (e.NewSize - e.OldSize) / 2, StartPoint.Y);
+            if (connectionPointFirst == 7) StartPoint = new Point(StartPoint.X + e.NewSize - e.OldSize, StartPoint.Y);
+        }
 
         private void OnSecondGridPositionChanged(object? sender, ChangeStartPointEventArgs e)
         {
             EndPoint += e.NewStartPoint - e.OldStartPoint;
+        } 
+        private void OnSecondGridHeightChanged(object? sender, ChangeSizeEventArgs e)
+        {
+            if (connectionPointSecond == 3) EndPoint = new Point(EndPoint.X, EndPoint.Y + (e.NewSize - e.OldSize)/2);
+            if (connectionPointSecond == 4) EndPoint = new Point(EndPoint.X, EndPoint.Y + (e.NewSize - e.OldSize)/2);
+            if (connectionPointSecond == 5) EndPoint = new Point(EndPoint.X, EndPoint.Y + e.NewSize - e.OldSize);
+            if (connectionPointSecond == 6) EndPoint = new Point(EndPoint.X, EndPoint.Y + e.NewSize - e.OldSize);
+            if (connectionPointSecond == 7) EndPoint = new Point(EndPoint.X, EndPoint.Y + e.NewSize - e.OldSize);
+        } 
+        private void OnSecondGridWidthChanged(object? sender, ChangeSizeEventArgs e)
+        {
+            if (connectionPointSecond == 1) EndPoint = new Point(EndPoint.X + (e.NewSize - e.OldSize) / 2, EndPoint.Y);
+            if (connectionPointSecond == 2) EndPoint = new Point(EndPoint.X + e.NewSize - e.OldSize, EndPoint.Y);
+            if (connectionPointSecond == 4) EndPoint = new Point(EndPoint.X + e.NewSize - e.OldSize, EndPoint.Y);
+            if (connectionPointSecond == 6) EndPoint = new Point(EndPoint.X + (e.NewSize - e.OldSize) / 2, EndPoint.Y);
+            if (connectionPointSecond == 7) EndPoint = new Point(EndPoint.X + e.NewSize - e.OldSize, EndPoint.Y);
         }
+
 
         private void Calc()
         {

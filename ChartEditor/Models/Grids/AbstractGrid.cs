@@ -35,13 +35,41 @@ namespace ChartEditor.Models.Grids
         public double Height
         {
             get => height;
-            set => SetAndRaise(ref height, value);
+            set
+            {
+                double oldHeight = Height;
+                SetAndRaise(ref height, value);
+                if (ChangeHeight != null)
+                {
+                    ChangeSizeEventArgs args = new ChangeSizeEventArgs
+                    {
+                        OldSize = oldHeight,
+                        NewSize = Height
+                    };
+                    ChangeHeight(this, args);
+                }
+            }
         }
         public double Width
         {
             get => width;
-            set => SetAndRaise(ref width, value);
+            set
+            {
+                double oldWidth = Width;
+                SetAndRaise(ref width, value);
+                if (ChangeHeight != null)
+                {
+                    ChangeSizeEventArgs args = new ChangeSizeEventArgs
+                    {
+                        OldSize = oldWidth,
+                        NewSize = Width
+                    };
+                    ChangeWidth(this, args);
+                }
+            }
         }
         public event EventHandler<ChangeStartPointEventArgs> ChangeStartPoint;
+        public event EventHandler<ChangeSizeEventArgs> ChangeHeight;
+        public event EventHandler<ChangeSizeEventArgs> ChangeWidth;
     }
 }

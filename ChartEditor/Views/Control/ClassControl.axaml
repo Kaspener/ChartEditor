@@ -40,7 +40,7 @@
 								<TranslateTransform X="{Binding $parent[Canvas].Width, Converter={StaticResource gridSize}}" Y="{Binding $parent[Canvas].Height, Converter={StaticResource gridSize}}"/>
 							</Ellipse.RenderTransform>
 						</Ellipse>
-						<Ellipse Name="UpRigthEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
+						<Ellipse Name="UpRightEl" Width="10" Height="10" Fill="{TemplateBinding PointsColor}">
 							<Ellipse.RenderTransform>
 								<TranslateTransform X="{Binding $parent[Canvas].Width, Converter={StaticResource gridSize}}" Y="0"/>
 							</Ellipse.RenderTransform>
