@@ -3,7 +3,7 @@
         xmlns:controls="using:ChartEditor.Views.Control"
 		xmlns:converters="clr-namespace:ChartEditor.Converters">
   <Design.PreviewWith>
-    <controls:ClassControl GridHeight="100" GridWidth="100" PointsColor="Red"/>
+    <controls:ClassControl GridHeight="100" GridWidth="100" PointsColor="Red" MainParameters="Class"/>
   </Design.PreviewWith>
 
 	<Styles.Resources>
@@ -15,15 +15,21 @@
 			<Setter Property="Template">
 				<ControlTemplate>
 					<Canvas Name="ClassCanvas" Height="{TemplateBinding GridHeight}" Width="{TemplateBinding GridWidth}" Background="Transparent">
-						<Grid Height="{Binding $parent[Canvas].Height, Converter={StaticResource gridSize}}" Width="{Binding $parent[Canvas].Width, , Converter={StaticResource gridSize}}" RowDefinitions="20*, 20*, 20*, 40*" ColumnDefinitions="*" Margin="5" Background="White">
+						<Grid Height="{Binding $parent[Canvas].Height, Converter={StaticResource gridSize}}" Width="{Binding $parent[Canvas].Width, , Converter={StaticResource gridSize}}" RowDefinitions="30*, 30*, 30*, 10*" ColumnDefinitions="*" Margin="5" Background="White">
 							<Border BorderThickness="1" BorderBrush="Black" Grid.Row="0" >
-								<TextBlock Text="Class" TextAlignment="Center" FontWeight="Bold"/>
+								<Viewbox Stretch="Uniform" Height="{Binding $parent[Border].Height}" Width="{Binding $parent[Border].Width}">
+									<TextBlock Text="{TemplateBinding MainParameters}" TextAlignment="Center" FontWeight="Bold"/>
+								</Viewbox>
 							</Border>
 							<Border BorderThickness="1" BorderBrush="Black" Grid.Row="1">
-								<TextBlock/>
+								<Viewbox Stretch="Fill" Height="{Binding $parent[Border].Height}" Width="{Binding $parent[Border].Width}">
+									<TextBlock FontSize="14" Text="{TemplateBinding Attributes}"/>
+								</Viewbox>
 							</Border>
 							<Border BorderThickness="1" BorderBrush="Black" Grid.Row="2">
-								<TextBlock/>
+								<Viewbox Stretch="Fill" Height="{Binding $parent[Border].Height}" Width="{Binding $parent[Border].Width}">
+									<TextBlock Text="{TemplateBinding Operations}"/>
+								</Viewbox>
 							</Border>
 							<Border BorderThickness="1" BorderBrush="Black" Grid.Row="3">
 								<TextBlock/>

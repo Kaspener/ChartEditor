@@ -40,10 +40,10 @@
 				<Border Grid.Column="0" BorderThickness="1" BorderBrush="Black">
 					<StackPanel>
 						<RadioButton IsChecked="{Binding IsClass}">
-							<controls:ClassControl PointsColor="Transparent" GridHeight="100" GridWidth="100"/>
+							<controls:ClassControl PointsColor="Transparent" GridHeight="100" GridWidth="100" MainParameters="Class"/>
 						</RadioButton>
 						<RadioButton IsChecked="{Binding IsInterface}" Margin="0, 10">
-							<controls:InterfaceControl PointsColor="Transparent" GridHeight="100" GridWidth="100"/>
+							<controls:InterfaceControl PointsColor="Transparent" GridHeight="100" GridWidth="100" MainParameters="Interface"/>
 						</RadioButton>
 						<RadioButton IsChecked="{Binding IsInheritance}">
 							<controls:InheritanceLineControl Lenght="100"/>
@@ -69,7 +69,7 @@
 					</StackPanel>
 				</Border>
 			<Border Grid.Column="1" BorderThickness="1" BorderBrush="Black">
-				<ItemsControl PointerPressed="PointerPressedOnMainCanvas" Items="{Binding Shapes}">
+				<ItemsControl PointerPressed="PointerPressedOnMainCanvas" DoubleTapped="OpenParameterDialogWindow" Items="{Binding Shapes}">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
 							<Canvas Name="mainCanvas" Background="Transparent"/>
@@ -77,7 +77,9 @@
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.DataTemplates>
 						<DataTemplate DataType="{x:Type grids:ClassElement}">
-							<controls:ClassControl PointsColor="LightBlue" GridHeight="{Binding Height}" GridWidth="{Binding Width}">
+							<controls:ClassControl PointsColor="LightBlue" GridHeight="{Binding Height}" 
+												   GridWidth="{Binding Width}" MainParameters="{Binding GridText.MainParameters}" 
+												   Attributes="{Binding GridText.Attributes}" Operations="{Binding GridText.Operations}">
 								<controls:ClassControl.RenderTransform>
 									<TransformGroup>
 										<TranslateTransform X="{Binding StartPoint.X}" Y="{Binding StartPoint.Y}"/>
@@ -86,7 +88,9 @@
 							</controls:ClassControl>
 						</DataTemplate>
 						<DataTemplate DataType="{x:Type grids:InterfaceElement}">
-							<controls:InterfaceControl PointsColor="LightBlue" GridHeight="{Binding Height}" GridWidth="{Binding Width}">
+							<controls:InterfaceControl PointsColor="LightBlue" GridHeight="{Binding Height}" 
+													   GridWidth="{Binding Width}" MainParameters="{Binding GridText.MainParameters}"
+													   Attributes="{Binding GridText.Attributes}" Operations="{Binding GridText.Operations}">
 								<controls:InterfaceControl.RenderTransform>
 									<TransformGroup>
 										<TranslateTransform X="{Binding StartPoint.X}" Y="{Binding StartPoint.Y}"/>

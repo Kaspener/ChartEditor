@@ -11,11 +11,20 @@ namespace ChartEditor.Views.Control
     {
         public static readonly StyledProperty<double> LenghtProperty =
             AvaloniaProperty.Register<InheritanceLineControl, double>("Lenght");
+        public static readonly StyledProperty<double> TextInverseProperty =
+            AvaloniaProperty.Register<InheritanceLineControl, double>("TextInverse");
+        
 
         public double Lenght
         {
             get => GetValue(LenghtProperty);
             set => SetValue(LenghtProperty, value);
+        }
+
+        public double TextInverse
+        {
+            get => GetValue(TextInverseProperty);
+            set => SetValue(TextInverseProperty, value);
         }
     }
 }

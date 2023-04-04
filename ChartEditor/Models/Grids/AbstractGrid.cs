@@ -13,6 +13,14 @@ namespace ChartEditor.Models.Grids
         private Point startPoint;
         private double height;
         private double width;
+        private GridStrings gridText;
+
+        public AbstractGrid()
+        {
+            GridText = new GridStrings();
+            GridText.Attributes = "";
+            GridText.Operations = "";
+        }
 
         public Point StartPoint
         {
@@ -68,6 +76,13 @@ namespace ChartEditor.Models.Grids
                 }
             }
         }
+
+        public GridStrings GridText
+        {
+            get => gridText;
+            set => SetAndRaise(ref gridText, value);
+        }
+
         public event EventHandler<ChangeStartPointEventArgs> ChangeStartPoint;
         public event EventHandler<ChangeSizeEventArgs> ChangeHeight;
         public event EventHandler<ChangeSizeEventArgs> ChangeWidth;

@@ -13,6 +13,12 @@ namespace ChartEditor.Views.Control
             AvaloniaProperty.Register<ClassControl, double>("GridHeight");
         public static readonly StyledProperty<double> GridWidthProperty =
             AvaloniaProperty.Register<ClassControl, double>("GridWidth");
+        public static readonly StyledProperty<string> MainParametersProperty =
+            AvaloniaProperty.Register<ClassControl, string>("MainParameters");
+        public static readonly StyledProperty<string> AttributesProperty =
+            AvaloniaProperty.Register<ClassControl, string>("Attributes");
+        public static readonly StyledProperty<string> OperationsProperty =
+            AvaloniaProperty.Register<ClassControl, string>("Operations");
 
         public SolidColorBrush PointsColor
         {
@@ -29,6 +35,21 @@ namespace ChartEditor.Views.Control
         {
             get => GetValue(GridWidthProperty);
             set => SetValue(GridWidthProperty, value);
+        }
+        public string MainParameters
+        {
+            get => GetValue(MainParametersProperty);
+            set => SetValue(MainParametersProperty, value);
+        }
+        public string Attributes
+        {
+            get => GetValue(AttributesProperty);
+            set => SetValue(AttributesProperty, value);
+        }
+        public string Operations
+        {
+            get => GetValue(OperationsProperty);
+            set => SetValue(OperationsProperty, value);
         }
     }
 }

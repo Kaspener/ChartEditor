@@ -8,5 +8,9 @@ namespace ChartEditor.Models.Grids
 {
     public class InterfaceElement : AbstractGrid
     {
+        public InterfaceElement()
+        {
+            GridText.MainParameters = "Interface";
+        }
     }
 }

@@ -2,10 +2,13 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.VisualTree;
+using ChartEditor.Models;
 using ChartEditor.Models.Grids;
 using ChartEditor.Models.Lines;
 using ChartEditor.ViewModels;
+using DynamicData;
 using System.Linq;
 
 namespace ChartEditor.Views
@@ -18,6 +21,23 @@ namespace ChartEditor.Views
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public async void OpenParameterDialogWindow(object sender, RoutedEventArgs routedEventArgs)
+        {
+            if (routedEventArgs.Source is Avalonia.Controls.Control control)
+            {
+                if (control.DataContext is AbstractGrid grd)
+                {
+                    ParameterWindow parameterWindow = new ParameterWindow();
+                    //parameterWindow.DataContext = new ParameterWindowViewModel();
+                    if (parameterWindow.DataContext is ParameterWindowViewModel parameters)
+                    {
+                        parameters.Strings = grd.GridText;
+                        await parameterWindow.ShowDialog(this);
+                    }
+                }
+            }
         }
 
         private void PointerPressedOnMainCanvas(object sender, PointerPressedEventArgs pointerPressedEventArgs)
@@ -45,7 +65,7 @@ namespace ChartEditor.Views
                         }
                     }
                 }
-                if (control.DataContext is ClassElement clas)
+                if (control.DataContext is AbstractGrid clas)
                 {
                     if (this.DataContext is MainWindowViewModel window)
                     {
@@ -66,6 +86,15 @@ namespace ChartEditor.Views
                         }
                         if (window.IsDelete)
                         {
+                            for (int i = 0; i < window.Shapes.Count;)
+                            {
+                                if (window.Shapes[i] is AbstractLine ln)
+                                {
+                                    if (ln.FirstGrid == clas || ln.SecondGrid == clas) window.Shapes.Remove(ln);
+                                    else ++i;
+                                }
+                                else ++i;
+                            }
                             window.Shapes.Remove(clas);
                         }
                         if (control is Ellipse ellipse)
@@ -92,29 +121,66 @@ namespace ChartEditor.Views
                                 this.PointerMoved += PointerMoveDrawLine;
                                 this.PointerReleased += PointerPressedReleasedDrawLine;
                             }
-                        }
-                    }
-                }
-                if (control.DataContext is InterfaceElement inter)
-                {
-                    if (this.DataContext is MainWindowViewModel window)
-                    {
-                        if (window.IsMove)
-                        {
-                            var interCanvas = control.Parent;
-                            pointerPositionIntoShape = pointerPressedEventArgs.GetPosition(interCanvas);
-                            this.PointerMoved += PointerMoveDragShape;
-                            this.PointerReleased += PointerPressedReleasedDragShape;
-                        }
-                        if (window.IsResize)
-                        {
-                            pointerStartPositionToResize = pointPointerPressed;
-                            this.PointerMoved += PointerMoveResizeShape;
-                            this.PointerReleased += PointerPressedReleasedResizeShape;
-                        }
-                        if (window.IsDelete)
-                        {
-                            window.Shapes.Remove(inter);
+                            if (window.IsAssociation)
+                            {
+                                window.Shapes.Add(new AssociationLine
+                                {
+                                    StartPoint = pointPointerPressed,
+                                    EndPoint = pointPointerPressed,
+                                    FirstGrid = clas,
+                                    ConnectionPointFirst = ellipseNum
+                                });
+                                this.PointerMoved += PointerMoveDrawLine;
+                                this.PointerReleased += PointerPressedReleasedDrawLine;
+                            }
+                            if (window.IsComposition)
+                            {
+                                window.Shapes.Add(new CompositionLine
+                                {
+                                    StartPoint = pointPointerPressed,
+                                    EndPoint = pointPointerPressed,
+                                    FirstGrid = clas,
+                                    ConnectionPointFirst = ellipseNum
+                                });
+                                this.PointerMoved += PointerMoveDrawLine;
+                                this.PointerReleased += PointerPressedReleasedDrawLine;
+                            }
+                            if (window.IsDependency)
+                            {
+                                window.Shapes.Add(new DependencyLine
+                                {
+                                    StartPoint = pointPointerPressed,
+                                    EndPoint = pointPointerPressed,
+                                    FirstGrid = clas,
+                                    ConnectionPointFirst = ellipseNum
+                                });
+                                this.PointerMoved += PointerMoveDrawLine;
+                                this.PointerReleased += PointerPressedReleasedDrawLine;
+                            }
+                            if (window.IsImplementation)
+                            {
+                                window.Shapes.Add(new ImplementationLine
+                                {
+                                    StartPoint = pointPointerPressed,
+                                    EndPoint = pointPointerPressed,
+                                    FirstGrid = clas,
+                                    ConnectionPointFirst = ellipseNum
+                                });
+                                this.PointerMoved += PointerMoveDrawLine;
+                                this.PointerReleased += PointerPressedReleasedDrawLine;
+                            }
+                            if (window.IsInheritance)
+                            {
+                                window.Shapes.Add(new InheritanceLine
+                                {
+                                    StartPoint = pointPointerPressed,
+                                    EndPoint = pointPointerPressed,
+                                    FirstGrid = clas,
+                                    ConnectionPointFirst = ellipseNum
+                                });
+                                this.PointerMoved += PointerMoveDrawLine;
+                                this.PointerReleased += PointerPressedReleasedDrawLine;
+                            }
                         }
                     }
                 }
@@ -131,15 +197,9 @@ namespace ChartEditor.Views
                     .OfType<Canvas>()
                     .FirstOrDefault(canvas => string.IsNullOrEmpty(canvas.Name) == false &&
                         canvas.Name.Equals("mainCanvas")));
-                if (control.DataContext is ClassElement clas)
+                if (control.DataContext is AbstractGrid clas)
                 {
                     clas.StartPoint = new Point(
-                        currentPointerPosition.X - pointerPositionIntoShape.X,
-                        currentPointerPosition.Y - pointerPositionIntoShape.Y);
-                }
-                if (control.DataContext is InterfaceElement inter)
-                {
-                    inter.StartPoint = new Point(
                         currentPointerPosition.X - pointerPositionIntoShape.X,
                         currentPointerPosition.Y - pointerPositionIntoShape.Y);
                 }
@@ -163,7 +223,7 @@ namespace ChartEditor.Views
                     .OfType<Canvas>()
                     .FirstOrDefault(canvas => string.IsNullOrEmpty(canvas.Name) == false &&
                         canvas.Name.Equals("mainCanvas")));
-                if (control.DataContext is ClassElement clas)
+                if (control.DataContext is AbstractGrid clas)
                 {
                     if (control is Ellipse el)
                     {
@@ -224,67 +284,7 @@ namespace ChartEditor.Views
                         }
                     }
                 }
-                if (control.DataContext is InterfaceElement inter)
-                {
-                    if (control is Ellipse el)
-                    {
-                        if (el.Name == "RightEl")
-                        {
-                            inter.Width += currentPointerPosition.X - pointerStartPositionToResize.X;
-                            pointerStartPositionToResize = currentPointerPosition;
-                        }
-                        if (el.Name == "DownEl")
-                        {
-                            inter.Height += currentPointerPosition.Y - pointerStartPositionToResize.Y;
-                            pointerStartPositionToResize = currentPointerPosition;
-                        }
-                        if (el.Name == "LeftEl")
-                        {
-                            double sdvig = currentPointerPosition.X - pointerStartPositionToResize.X;
-                            inter.Width -= sdvig;
-                            inter.StartPoint = new Point(inter.StartPoint.X + sdvig, inter.StartPoint.Y);
-                            pointerStartPositionToResize = currentPointerPosition;
-                        }
-                        if (el.Name == "UpEl")
-                        {
-                            double sdvig = currentPointerPosition.Y - pointerStartPositionToResize.Y;
-                            inter.Height -= sdvig;
-                            inter.StartPoint = new Point(inter.StartPoint.X, inter.StartPoint.Y + sdvig);
-                            pointerStartPositionToResize = currentPointerPosition;
-                        }
-                        if (el.Name == "DownRightEl")
-                        {
-                            inter.Width += currentPointerPosition.X - pointerStartPositionToResize.X;
-                            inter.Height += currentPointerPosition.Y - pointerStartPositionToResize.Y;
-                            pointerStartPositionToResize = currentPointerPosition;
-                        }
-                        if (el.Name == "DownLeftEl")
-                        {
-                            double sdvig = currentPointerPosition.X - pointerStartPositionToResize.X;
-                            inter.Width -= sdvig;
-                            inter.Height += currentPointerPosition.Y - pointerStartPositionToResize.Y;
-                            inter.StartPoint = new Point(inter.StartPoint.X + sdvig, inter.StartPoint.Y);
-                            pointerStartPositionToResize = currentPointerPosition;
-                        }
-                        if (el.Name == "UpRightEl")
-                        {
-                            double sdvig = currentPointerPosition.Y - pointerStartPositionToResize.Y;
-                            inter.Height -= sdvig;
-                            inter.Width += currentPointerPosition.X - pointerStartPositionToResize.X;
-                            inter.StartPoint = new Point(inter.StartPoint.X, inter.StartPoint.Y + sdvig);
-                            pointerStartPositionToResize = currentPointerPosition;
-                        }
-                        if (el.Name == "UpLeftEl")
-                        {
-                            double sdvigY = currentPointerPosition.Y - pointerStartPositionToResize.Y;
-                            double sdvigX = currentPointerPosition.X - pointerStartPositionToResize.X;
-                            inter.Height -= sdvigY;
-                            inter.Width -= sdvigX;
-                            inter.StartPoint = new Point(inter.StartPoint.X + sdvigX, inter.StartPoint.Y + sdvigY);
-                            pointerStartPositionToResize = currentPointerPosition;
-                        }
-                    }
-                }
+                
             }
         }
 
@@ -299,7 +299,7 @@ namespace ChartEditor.Views
         {
             if (this.DataContext is MainWindowViewModel viewModel)
             {
-                if (viewModel.Shapes[viewModel.Shapes.Count - 1] is AggregationLine aggr)
+                if (viewModel.Shapes[viewModel.Shapes.Count - 1] is AbstractLine aggr)
                 {
                     Point currentPointerPosition = pointerEventArgs
                     .GetPosition(
@@ -331,7 +331,7 @@ namespace ChartEditor.Views
 
             if (element is Ellipse ellipse)
             {
-                if (ellipse.DataContext is ClassElement clas)
+                if (ellipse.DataContext is AbstractGrid clas)
                 {
                     int ellipseNum = 0;
                     if (ellipse.Name == "UpLeftEl") ellipseNum = 0;
@@ -346,6 +346,31 @@ namespace ChartEditor.Views
                     {
                         aggr.SecondGrid = clas;
                         aggr.ConnectionPointSecond = ellipseNum;
+                    }
+                    if (viewModel.Shapes[viewModel.Shapes.Count - 1] is AssociationLine asso)
+                    {
+                        asso.SecondGrid = clas;
+                        asso.ConnectionPointSecond = ellipseNum;
+                    }
+                    if (viewModel.Shapes[viewModel.Shapes.Count - 1] is CompositionLine comp)
+                    {
+                        comp.SecondGrid = clas;
+                        comp.ConnectionPointSecond = ellipseNum;
+                    }
+                    if (viewModel.Shapes[viewModel.Shapes.Count - 1] is DependencyLine dep)
+                    {
+                        dep.SecondGrid = clas;
+                        dep.ConnectionPointSecond = ellipseNum;
+                    }
+                    if (viewModel.Shapes[viewModel.Shapes.Count - 1] is ImplementationLine imp)
+                    {
+                        imp.SecondGrid = clas;
+                        imp.ConnectionPointSecond = ellipseNum;
+                    }
+                    if (viewModel.Shapes[viewModel.Shapes.Count - 1] is InheritanceLine inh)
+                    {
+                        inh.SecondGrid = clas;
+                        inh.ConnectionPointSecond = ellipseNum;
                     }
                     return;
                 }
