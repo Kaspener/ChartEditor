@@ -22,6 +22,27 @@ namespace ChartEditor.Views
         {
             InitializeComponent();
         }
+        //private async void OnExportMenuClickJSON(object sender, RoutedEventArgs eventArgs)
+        //{
+        //    SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+        //    saveFileDialog.Filters.Add(
+        //        new FileDialogFilter
+        //        {
+        //            Name = "JSON files",
+        //            Extensions = new string[] { "json" }.ToList()
+        //        });
+
+        //    string? path = await saveFileDialog.ShowAsync(this);
+
+        //    if (path != null)
+        //    {
+        //        if (this.DataContext is MainWindowViewModel dataContext)
+        //        {
+        //            dataContext.SaveFigures(path);
+        //        }
+        //    }
+        //}
 
         public async void OpenParameterDialogWindow(object sender, RoutedEventArgs routedEventArgs)
         {

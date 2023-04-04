@@ -1,28 +1,24 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+using System.IO;
 
 namespace ChartEditor.Models.Serializers
 {
     public class JSONLoader : IShapeLoader
     {
-        public ObservableCollection<PaintBaseFigure> Load(ObservableCollection<PaintBaseFigure> figures, string path)
+        public ObservableCollection<AbstractElement> Load(string path)
         {
             var figuresJsontext = File.ReadAllText(path);
 
-            var objects = JsonConvert.DeserializeObject<List<PaintBaseFigure>>(figuresJsontext,
+            var objects = JsonConvert.DeserializeObject<List<AbstractElement>>(figuresJsontext,
                     new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.All,
                         Formatting = Formatting.Indented
                     });
-            ObservableCollection<PaintBaseFigure> figuresList =
-                new ObservableCollection<PaintBaseFigure>(objects);
+            ObservableCollection<AbstractElement> figuresList =
+                new ObservableCollection<AbstractElement>(objects);
 
 
             return figuresList;

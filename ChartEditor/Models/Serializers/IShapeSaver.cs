@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChartEditor.Models.Serializers
 {
-    internal class IShapeSaver
-    {
+    public interface IShapeSaver { 
+        void Save(IEnumerable<AbstractElement> figures, string path);
     }
 }

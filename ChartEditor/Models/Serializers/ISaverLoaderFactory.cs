@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace ChartEditor.Models.Serializers
 {
-    internal class ISaverLoaderFactory
+    public interface ISaverLoaderFactory
     {
+        IShapeLoader CreateLoader();
+        IShapeSaver CreateSaver();
+
+        bool IsMatch(string path);
     }
 }

@@ -8,7 +8,6 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using Avalonia.Media;
-using ChartEditor.Models.Serializeble;
 using ChartEditor.Models;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
