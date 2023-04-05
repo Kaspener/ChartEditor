@@ -15,7 +15,7 @@
   <Style Selector="controls|InheritanceLineControl">
     <Setter Property="Template">
       <ControlTemplate>
-		  <Canvas Height="20" Width="{TemplateBinding Lenght}" Background="Transparent">
+		  <Canvas Name="InheritanceCanvas" Height="20" Width="{TemplateBinding Lenght}" Background="Transparent">
 			  <Line StartPoint="0, 10" EndPoint="{TemplateBinding Lenght, Converter={StaticResource lenghtToPoint}}" Stroke="Black" StrokeThickness="2"/>
 			  <TextBlock Text="Extends" Background="White" Margin="{TemplateBinding Lenght, Converter={StaticResource lenghtToExtendTextMargin}}"/>
 			  <Polygon Points="{TemplateBinding Lenght, Converter={StaticResource lenghtToTreePoints}}" Fill="White" StrokeThickness="1" Stroke="Black"/>

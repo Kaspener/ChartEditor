@@ -16,6 +16,7 @@ using Avalonia;
 using ChartEditor.Models.Lines;
 using System.Drawing.Printing;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 namespace ChartEditor.ViewModels
 {
@@ -98,6 +99,31 @@ namespace ChartEditor.ViewModels
         {
             get => isDelete;
             set => this.RaiseAndSetIfChanged(ref isDelete, value);
+        }
+        public IEnumerable<ISaverLoaderFactory> SaverLoaderFactoryCollection { get; set; }
+        public void SaveFigures(string path)
+        {
+            IShapeSaver? figureSaver = SaverLoaderFactoryCollection
+                .FirstOrDefault(factory => factory.IsMatch(path) == true)?
+                .CreateSaver();
+            if (figureSaver != null)
+            {
+                figureSaver.Save(Shapes, path);
+            }
+        }
+        public void LoadFigures(string path)
+        {
+            Shapes = null;
+            Shapes = new ObservableCollection<AbstractElement>();
+
+
+            IShapeLoader? figureLoader = SaverLoaderFactoryCollection
+                .FirstOrDefault(factory => factory.IsMatch(path) == true)?
+                .CreateLoader();
+            if (figureLoader != null)
+            {
+                Shapes = figureLoader.Load(path);
+            }
         }
     }
 }

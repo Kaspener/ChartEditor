@@ -11,17 +11,17 @@ namespace ChartEditor.Models.Serializers
         {
             var figuresJsontext = File.ReadAllText(path);
 
-            var objects = JsonConvert.DeserializeObject<List<AbstractElement>>(figuresJsontext,
+            var objects = JsonConvert.DeserializeObject<List<SerializebleElement>>(figuresJsontext,
                     new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.All,
                         Formatting = Formatting.Indented
                     });
-            ObservableCollection<AbstractElement> figuresList =
-                new ObservableCollection<AbstractElement>(objects);
+            ObservableCollection<SerializebleElement> figuresList =
+                new ObservableCollection<SerializebleElement>(objects);
 
 
-            return figuresList;
+            return ConvertElementToSerializeObject.FromSerializer(figuresList);
         }
     }
 }

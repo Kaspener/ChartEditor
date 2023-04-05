@@ -15,7 +15,7 @@
   <Style Selector="controls|CompositionLineControl">
     <Setter Property="Template">
       <ControlTemplate>
-		  <Canvas Height="20" Width="{TemplateBinding Lenght}" Background="Transparent">
+		  <Canvas Name="CompositionCanvas" Height="20" Width="{TemplateBinding Lenght}" Background="Transparent">
 			  <Line StartPoint="0,10" EndPoint="{TemplateBinding Lenght, Converter={StaticResource lenghtToPoint}}" StrokeThickness="2" Stroke="Black"/>
 			  <Polygon Points="{TemplateBinding Lenght, Converter={StaticResource lenghtToFourPoints}}" Fill="Black" StrokeThickness="1" Stroke="Black"/>
 		  </Canvas>

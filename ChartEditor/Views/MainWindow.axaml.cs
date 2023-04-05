@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
 using ChartEditor.Models;
 using ChartEditor.Models.Grids;
@@ -22,27 +23,161 @@ namespace ChartEditor.Views
         {
             InitializeComponent();
         }
-        //private async void OnExportMenuClickJSON(object sender, RoutedEventArgs eventArgs)
-        //{
-        //    SaveFileDialog saveFileDialog = new SaveFileDialog();
+        private async void OnExportMenuClickPNG(object sender, RoutedEventArgs routedEventArgs)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-        //    saveFileDialog.Filters.Add(
-        //        new FileDialogFilter
-        //        {
-        //            Name = "JSON files",
-        //            Extensions = new string[] { "json" }.ToList()
-        //        });
+            saveFileDialog.Filters.Add(
+                new FileDialogFilter
+                {
+                    Name = "PNG files",
+                    Extensions = new string[] { "png" }.ToList()
+                });
 
-        //    string? path = await saveFileDialog.ShowAsync(this);
+            string? path = await saveFileDialog.ShowAsync(this);
 
-        //    if (path != null)
-        //    {
-        //        if (this.DataContext is MainWindowViewModel dataContext)
-        //        {
-        //            dataContext.SaveFigures(path);
-        //        }
-        //    }
-        //}
+            var canvas = this.GetVisualDescendants().OfType<Canvas>().Where(canvas => canvas.Name.Equals("mainCanvas")).FirstOrDefault();
+            if (path != null)
+            {
+                var pixelSize = new PixelSize((int)canvas.Bounds.Width, (int)canvas.Bounds.Height);
+                var size = new Size(canvas.Bounds.Width, canvas.Bounds.Height);
+                using (RenderTargetBitmap bitmap = new RenderTargetBitmap(pixelSize, new Avalonia.Vector(96, 96)))
+                {
+                    canvas.Measure(size);
+                    canvas.Arrange(new Rect(size));
+                    bitmap.Render(canvas);
+                    bitmap.Save(path);
+                }
+            }
+        }
+        private async void OnExportMenuClickJSON(object sender, RoutedEventArgs eventArgs)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filters.Add(
+                new FileDialogFilter
+                {
+                    Name = "JSON files",
+                    Extensions = new string[] { "json" }.ToList()
+                });
+
+            string? path = await saveFileDialog.ShowAsync(this);
+
+            if (path != null)
+            {
+                if (this.DataContext is MainWindowViewModel dataContext)
+                {
+                    dataContext.SaveFigures(path);
+                }
+            }
+        }
+        private async void OnImportMenuClickJSON(object sender, RoutedEventArgs eventArgs)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Filters.Add(
+                new FileDialogFilter
+                {
+                    Name = "JSON files",
+                    Extensions = new string[] { "json" }.ToList()
+                });
+
+            string[]? path = await openFileDialog.ShowAsync(this);
+
+            if (path != null)
+            {
+                if (this.DataContext is MainWindowViewModel dataContext)
+                {
+                    dataContext.LoadFigures(path[0]);
+                }
+            }
+        }
+
+        private async void OnExportMenuClickXML(object sender, RoutedEventArgs eventArgs)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filters.Add(
+                new FileDialogFilter
+                {
+                    Name = "Xml files",
+                    Extensions = new string[] { "xml" }.ToList()
+                });
+
+            string? path = await saveFileDialog.ShowAsync(this);
+
+            if (path != null)
+            {
+                if (this.DataContext is MainWindowViewModel dataContext)
+                {
+                    dataContext.SaveFigures(path);
+                }
+            }
+        }
+        private async void OnImportMenuClickXML(object sender, RoutedEventArgs eventArgs)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Filters.Add(
+                new FileDialogFilter
+                {
+                    Name = "Xml files",
+                    Extensions = new string[] { "xml" }.ToList()
+                });
+
+            string[]? path = await openFileDialog.ShowAsync(this);
+
+            if (path != null)
+            {
+                if (this.DataContext is MainWindowViewModel dataContext)
+                {
+                    dataContext.LoadFigures(path[0]);
+                }
+            }
+        }
+
+        private async void OnExportMenuClickYAML(object sender, RoutedEventArgs eventArgs)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filters.Add(
+                new FileDialogFilter
+                {
+                    Name = "Yaml files",
+                    Extensions = new string[] { "yaml" }.ToList()
+                });
+
+            string? path = await saveFileDialog.ShowAsync(this);
+
+            if (path != null)
+            {
+                if (this.DataContext is MainWindowViewModel dataContext)
+                {
+                    dataContext.SaveFigures(path);
+                }
+            }
+        }
+        private async void OnImportMenuClickYAML(object sender, RoutedEventArgs eventArgs)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Filters.Add(
+                new FileDialogFilter
+                {
+                    Name = "Yaml files",
+                    Extensions = new string[] { "yaml" }.ToList()
+                });
+
+            string[]? path = await openFileDialog.ShowAsync(this);
+
+            if (path != null)
+            {
+                if (this.DataContext is MainWindowViewModel dataContext)
+                {
+                    dataContext.LoadFigures(path[0]);
+                }
+            }
+        }
 
         public async void OpenParameterDialogWindow(object sender, RoutedEventArgs routedEventArgs)
         {

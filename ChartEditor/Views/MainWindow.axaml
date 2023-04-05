@@ -24,15 +24,15 @@
 		<DockPanel Grid.Row="0">
 			<Menu DockPanel.Dock="Top">
 				<MenuItem Name="menuExport" Header="Экспортировать">
-					<MenuItem Header="Экспортировать в PNG"/>
-					<MenuItem Header="Экспортировать в JSON"/>
-					<MenuItem Header="Экспортировать в XML"/>
-					<MenuItem Header="Экспортировать в YAML"/>
+					<MenuItem Header="Экспортировать в PNG" Click="OnExportMenuClickPNG"/>
+					<MenuItem Header="Экспортировать в JSON" Click="OnExportMenuClickJSON"/>
+					<MenuItem Header="Экспортировать в XML" Click="OnExportMenuClickXML"/>
+					<MenuItem Header="Экспортировать в YAML" Click="OnExportMenuClickYAML"/>
 				</MenuItem>
 				<MenuItem Name="menuImport" Header="Импортировать">
-					<MenuItem Header="Импортировать в JSON"/>
-					<MenuItem Header="Импортировать в XML"/>
-					<MenuItem Header="Импортировать в YAML"/>
+					<MenuItem Header="Импортировать в JSON" Click="OnImportMenuClickJSON"/>
+					<MenuItem Header="Импортировать в XML" Click="OnImportMenuClickXML"/>
+					<MenuItem Header="Импортировать в YAML" Click="OnImportMenuClickYAML"/>
 				</MenuItem>
 			</Menu>
 		</DockPanel>
