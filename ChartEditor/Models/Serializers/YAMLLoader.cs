@@ -8,7 +8,10 @@ namespace ChartEditor.Models.Serializers
     {
         public ObservableCollection<AbstractElement> Load(string path)
         {
-            var deserializer = new DeserializerBuilder().Build();
+            var deserializer = new DeserializerBuilder()
+                .WithTagMapping("!grid", typeof(SerializebleGrid))
+                .WithTagMapping("!line", typeof(SerializebleLine))
+                .Build();
             string input;
             using (StreamReader reader = new StreamReader(path))
             {

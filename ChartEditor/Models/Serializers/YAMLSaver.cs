@@ -9,7 +9,10 @@ namespace ChartEditor.Models.Serializers
         public void Save(ObservableCollection<AbstractElement> figures, string path)
         {
             ObservableCollection<SerializebleElement> elements = ConvertElementToSerializeObject.ToSerializer(figures);
-            var serializer = new SerializerBuilder().Build();
+            var serializer = new SerializerBuilder()
+                .WithTagMapping("!grid", typeof(SerializebleGrid))
+                .WithTagMapping("!line", typeof(SerializebleLine))
+                .Build();
             var yaml = serializer.Serialize(elements);
             using (StreamWriter writer = new StreamWriter(path, false))
             {
