@@ -79,7 +79,13 @@
 						<DataTemplate DataType="{x:Type grids:ClassElement}">
 							<controls:ClassControl PointsColor="LightBlue" GridHeight="{Binding Height}" 
 												   GridWidth="{Binding Width}" MainParameters="{Binding GridText.MainParameters}" 
-												   Attributes="{Binding GridText.Attributes}" Operations="{Binding GridText.Operations}">
+												   Attributes="{Binding GridText.Attributes}" Operations="{Binding GridText.Operations}" 
+												   MainParametersAbstract="{Binding GridText.Fonts.IsMainParametersAbstract}" 
+												   MainParametersStatic="{Binding GridText.Fonts.IsMainParametersStatic}"
+												   AttributesAbstract="{Binding GridText.Fonts.IsAttributesAbstract}"
+												   AttributesStatic="{Binding GridText.Fonts.IsAttributesStatic}"
+												   OperationsAbstract="{Binding GridText.Fonts.IsOperationsAbstract}"
+											       OperationsStatic="{Binding GridText.Fonts.IsOperationsStatic}">
 								<controls:ClassControl.RenderTransform>
 									<TransformGroup>
 										<TranslateTransform X="{Binding StartPoint.X}" Y="{Binding StartPoint.Y}"/>
@@ -90,7 +96,13 @@
 						<DataTemplate DataType="{x:Type grids:InterfaceElement}">
 							<controls:InterfaceControl PointsColor="LightBlue" GridHeight="{Binding Height}" 
 													   GridWidth="{Binding Width}" MainParameters="{Binding GridText.MainParameters}"
-													   Attributes="{Binding GridText.Attributes}" Operations="{Binding GridText.Operations}">
+													   Attributes="{Binding GridText.Attributes}" Operations="{Binding GridText.Operations}"
+													   MainParametersAbstract="{Binding GridText.Fonts.IsMainParametersAbstract}" 
+												       MainParametersStatic="{Binding GridText.Fonts.IsMainParametersStatic}"
+												       AttributesAbstract="{Binding GridText.Fonts.IsAttributesAbstract}"
+												       AttributesStatic="{Binding GridText.Fonts.IsAttributesStatic}"
+												       OperationsAbstract="{Binding GridText.Fonts.IsOperationsAbstract}"
+											           OperationsStatic="{Binding GridText.Fonts.IsOperationsStatic}">
 								<controls:InterfaceControl.RenderTransform>
 									<TransformGroup>
 										<TranslateTransform X="{Binding StartPoint.X}" Y="{Binding StartPoint.Y}"/>

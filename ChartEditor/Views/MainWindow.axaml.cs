@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
 using ChartEditor.Models;
@@ -190,7 +191,7 @@ namespace ChartEditor.Views
                 if (control.DataContext is AbstractGrid grd)
                 {
                     ParameterWindow parameterWindow = new ParameterWindow();
-                    //parameterWindow.DataContext = new ParameterWindowViewModel();
+                  
                     if (parameterWindow.DataContext is ParameterWindowViewModel parameters)
                     {
                         parameters.Strings = grd.GridText;
@@ -549,26 +550,6 @@ namespace ChartEditor.Views
                     if (this.DataContext is MainWindowViewModel mainWindow)
                     {
                         mainWindow.LoadFigures(fileName);
-                        //if (fileName.EndsWith(".xml"))
-                        //{
-                        //    mainWindow.FigureList = new ObservableCollection<Figures>();
-                        //    mainWindow.Shapes = new ObservableCollection<Shape>();
-                        //    mainWindow.FigureList = Serializer<ObservableCollection<Figures>>.Load(fileName);
-                        //    foreach (Figures f in mainWindow.FigureList)
-                        //    {
-                        //        mainWindow.Shapes.Add(mainWindow.ElementToShape(f));
-                        //    }
-                        //}
-                        //if (fileName.EndsWith(".json"))
-                        //{
-                        //    mainWindow.FigureList = new ObservableCollection<Figures>();
-                        //    mainWindow.Shapes = new ObservableCollection<Shape>();
-                        //    mainWindow.FigureList = JsonSerializer<ObservableCollection<Figures>>.Load(fileName);
-                        //    foreach (Figures f in mainWindow.FigureList)
-                        //    {
-                        //        mainWindow.Shapes.Add(mainWindow.ElementToShape(f));
-                        //    }
-                        //}
                     }
                 }
             }

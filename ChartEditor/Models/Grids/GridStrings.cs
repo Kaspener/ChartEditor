@@ -12,6 +12,11 @@ namespace ChartEditor.Models.Grids
         private string mainParameters;
         private string attributes;
         private string operations;
+        private GridTextFonts fonts;
+
+        public GridStrings(){
+            Fonts = new GridTextFonts();
+        }
 
         public string MainParameters
         {
@@ -27,6 +32,11 @@ namespace ChartEditor.Models.Grids
         {
             get => operations;
             set => SetAndRaise(ref operations, value);
+        }
+        public GridTextFonts Fonts
+        {
+            get => fonts;
+            set => SetAndRaise(ref fonts, value);
         }
     }
 }

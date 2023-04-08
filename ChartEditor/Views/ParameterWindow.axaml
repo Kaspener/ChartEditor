@@ -12,19 +12,38 @@
 			<TabItem.Header>
 				<TextBlock Text="Общие параметры"/>
 			</TabItem.Header>
-			<TextBox Text="{Binding Strings.MainParameters}"/>
+			<StackPanel>
+				<RadioButton Content="None" IsChecked="True"/>
+				<RadioButton Content="Abstract" IsChecked="{Binding Strings.Fonts.IsMainParametersAbstract}"/>
+				<RadioButton Content="Static" IsChecked="{Binding Strings.Fonts.IsMainParametersStatic}"/>
+				<TextBox Text="{Binding Strings.MainParameters}" FontWeight="Bold"/>
+			</StackPanel>
 		</TabItem>
 		<TabItem>
 			<TabItem.Header>
 				<TextBlock Text="Атрибуты"/>
 			</TabItem.Header>
-			<TextBox AcceptsReturn="True" Text="{Binding Strings.Attributes}"/>
+			<StackPanel>
+				<RadioButton Content="None" IsChecked="True"/>
+				<RadioButton Content="Abstract" IsChecked="{Binding Strings.Fonts.IsAttributesAbstract}"/>
+				<RadioButton Content="Static" IsChecked="{Binding Strings.Fonts.IsAttributesStatic}"/>
+				<ScrollViewer VerticalScrollBarVisibility="Auto">
+					<TextBox AcceptsReturn="True" Text="{Binding Strings.Attributes}" MaxHeight="250"/>
+				</ScrollViewer>
+			</StackPanel>
 		</TabItem>
 		<TabItem>
 			<TabItem.Header>
 				<TextBlock Text="Операции"/>
 			</TabItem.Header>
-			<TextBox AcceptsReturn="True" Text="{Binding Strings.Operations}"/>
+			<StackPanel>
+				<RadioButton Content="None" IsChecked="True"/>
+				<RadioButton Content="Abstract" IsChecked="{Binding Strings.Fonts.IsOperationsAbstract}"/>
+				<RadioButton Content="Static" IsChecked="{Binding Strings.Fonts.IsOperationsStatic}"/>
+				<ScrollViewer VerticalScrollBarVisibility="Auto">
+					<TextBox AcceptsReturn="True" Text="{Binding Strings.Operations}" MaxHeight="250"/>
+				</ScrollViewer>
+			</StackPanel>
 		</TabItem>
 	</TabControl>
 </Window>

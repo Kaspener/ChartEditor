@@ -10,6 +10,8 @@
 	<Styles.Resources>
 		<converters:SetStartInLineConverter x:Key="gridSize"/>
 		<converters:MiddleLinePointConverter x:Key="middlePoint"/>
+		<converters:FontStyleConverter x:Key="fontStyle"/>
+		<converters:TextStyleConverter x:Key="textStyle"/>
 	</Styles.Resources>
 
   <Style Selector="controls|InterfaceControl">
@@ -23,18 +25,18 @@
 							  <TextBlock Text="«interface»" FontSize="10" TextAlignment="Center" FontStyle="Italic"/>
 						  </Viewbox>
 						  <Viewbox Grid.Row="1" Stretch="Uniform" Height="{Binding $parent[Border].Height}" Width="{Binding $parent[Border].Width}">
-							  <TextBlock Text="{TemplateBinding MainParameters}" TextAlignment="Center" FontWeight="Bold"/>
+							  <TextBlock Text="{TemplateBinding MainParameters}" TextAlignment="Center" FontWeight="Bold" FontStyle="{TemplateBinding MainParametersAbstract, Converter={StaticResource fontStyle}}" TextDecorations="{TemplateBinding MainParametersStatic, Converter={StaticResource textStyle}}"/>
 						  </Viewbox>
 					  </Grid>
 				  </Border>
 				  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1">
 					  <Viewbox Stretch="Fill" Height="{Binding $parent[Border].Height}" Width="{Binding $parent[Border].Width}">
-						  <TextBlock Text="{TemplateBinding Attributes}"/>
+						  <TextBlock Text="{TemplateBinding Attributes}" FontStyle="{TemplateBinding AttributesAbstract, Converter={StaticResource fontStyle}}" TextDecorations="{TemplateBinding AttributesStatic, Converter={StaticResource textStyle}}"/>
 					  </Viewbox>
 				  </Border>
 				  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="2">
 					  <Viewbox Stretch="Fill" Height="{Binding $parent[Border].Height}" Width="{Binding $parent[Border].Width}">
-						  <TextBlock Text="{TemplateBinding Operations}"/>
+						  <TextBlock Text="{TemplateBinding Operations}" FontStyle="{TemplateBinding OperationsAbstract, Converter={StaticResource fontStyle}}" TextDecorations="{TemplateBinding OperationsStatic, Converter={StaticResource textStyle}}"/>
 					  </Viewbox>
 				  </Border>
 				  <Border BorderThickness="1" BorderBrush="Black" Grid.Row="3">
