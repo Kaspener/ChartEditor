@@ -8,8 +8,11 @@ using Avalonia.VisualTree;
 using ChartEditor.Models;
 using ChartEditor.Models.Grids;
 using ChartEditor.Models.Lines;
+using ChartEditor.Models.Serializers;
 using ChartEditor.ViewModels;
 using DynamicData;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 
 namespace ChartEditor.Views
@@ -22,6 +25,7 @@ namespace ChartEditor.Views
         public MainWindow()
         {
             InitializeComponent();
+            AddHandler(DragDrop.DropEvent, DropShapes);
         }
         private async void OnExportMenuClickPNG(object sender, RoutedEventArgs routedEventArgs)
         {
@@ -533,6 +537,41 @@ namespace ChartEditor.Views
             }
 
             viewModel.Shapes.RemoveAt(viewModel.Shapes.Count - 1);
+        }
+        private void DropShapes(object? sender, DragEventArgs dragEventArgs)
+        {
+            if (dragEventArgs.Data.Contains(DataFormats.FileNames) == true)
+            {
+                string? fileName = dragEventArgs.Data.GetFileNames()?.FirstOrDefault();
+
+                if (fileName != null)
+                {
+                    if (this.DataContext is MainWindowViewModel mainWindow)
+                    {
+                        mainWindow.LoadFigures(fileName);
+                        //if (fileName.EndsWith(".xml"))
+                        //{
+                        //    mainWindow.FigureList = new ObservableCollection<Figures>();
+                        //    mainWindow.Shapes = new ObservableCollection<Shape>();
+                        //    mainWindow.FigureList = Serializer<ObservableCollection<Figures>>.Load(fileName);
+                        //    foreach (Figures f in mainWindow.FigureList)
+                        //    {
+                        //        mainWindow.Shapes.Add(mainWindow.ElementToShape(f));
+                        //    }
+                        //}
+                        //if (fileName.EndsWith(".json"))
+                        //{
+                        //    mainWindow.FigureList = new ObservableCollection<Figures>();
+                        //    mainWindow.Shapes = new ObservableCollection<Shape>();
+                        //    mainWindow.FigureList = JsonSerializer<ObservableCollection<Figures>>.Load(fileName);
+                        //    foreach (Figures f in mainWindow.FigureList)
+                        //    {
+                        //        mainWindow.Shapes.Add(mainWindow.ElementToShape(f));
+                        //    }
+                        //}
+                    }
+                }
+            }
         }
     }
 }

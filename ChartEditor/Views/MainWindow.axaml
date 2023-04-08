@@ -69,7 +69,7 @@
 					</StackPanel>
 				</Border>
 			<Border Grid.Column="1" BorderThickness="1" BorderBrush="Black">
-				<ItemsControl PointerPressed="PointerPressedOnMainCanvas" DoubleTapped="OpenParameterDialogWindow" Items="{Binding Shapes}">
+				<ItemsControl DragDrop.AllowDrop="True" PointerPressed="PointerPressedOnMainCanvas" DoubleTapped="OpenParameterDialogWindow" Items="{Binding Shapes}">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
 							<Canvas Name="mainCanvas" Background="Transparent"/>
